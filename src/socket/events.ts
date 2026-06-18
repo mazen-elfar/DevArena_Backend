@@ -1,0 +1,1 @@
+﻿// Socket event name constants

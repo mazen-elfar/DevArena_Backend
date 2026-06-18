@@ -1,0 +1,1 @@
+﻿// Base AppError class with statusCode and code

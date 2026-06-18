@@ -1,0 +1,1 @@
+﻿// Register all workers and queues
