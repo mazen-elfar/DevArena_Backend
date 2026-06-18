@@ -1,1 +1,0 @@
-﻿// activity-logs module

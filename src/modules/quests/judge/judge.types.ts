@@ -1,1 +1,0 @@
-﻿// Submission result, language enum, verdict types

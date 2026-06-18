@@ -1,1 +1,0 @@
-﻿// Notification type enum - 11 types from ERD

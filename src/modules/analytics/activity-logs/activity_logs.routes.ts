@@ -1,1 +1,0 @@
-﻿// activity_logs routes
