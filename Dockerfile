@@ -1,14 +1,9 @@
-﻿FROM node:20-alpine AS builder
+﻿FROM node:20-alpine AS base
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-FROM node:20-alpine AS runner
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+RUN npm ci --only=production
+COPY prisma ./prisma/
+RUN npx prisma generate
+COPY src ./src/
 EXPOSE 5000
-CMD ["node", "dist/server.js"]
+CMD ["node", "src/server.js"]
