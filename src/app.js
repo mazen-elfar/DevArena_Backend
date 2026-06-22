@@ -1,4 +1,4 @@
-﻿import express from "express";
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -6,6 +6,7 @@ import { errorHandler } from "./shared/middleware/error.handler.js";
 import { apiLimiter } from "./shared/middleware/rate-limit.middleware.js";
 
 import authRoutes from "./modules/auth/auth.routes.js";
+import profileRoutes from "./modules/profile/profile.routes.js";
 import communityRoutes from "./modules/community/community.routes.js";
 import friendsRoutes from "./modules/friends/friends.routes.js";
 import messagingRoutes from "./modules/messaging/messaging.routes.js";
@@ -40,6 +41,7 @@ export function createApp() {
   });
 
   app.use("/api/auth", authRoutes);
+  app.use("/api/profile", profileRoutes);
   app.use("/api/posts", communityRoutes);
   app.use("/api/friends", friendsRoutes);
   app.use("/api/conversations", messagingRoutes);

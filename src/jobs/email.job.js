@@ -1,7 +1,9 @@
 import { Worker } from "bullmq";
-import { getRedis } from "../config/redis.js";
+import { getRedis, isRedisAvailable } from "../config/redis.js";
 
 export function setupEmailWorker() {
+  if (!isRedisAvailable()) return;
+
   const worker = new Worker("email", async (job) => {
     const { to, subject, body } = job.data;
     console.log(`[Email] Sending to ${to}: ${subject}`);
@@ -9,6 +11,7 @@ export function setupEmailWorker() {
     // For now, just log
     return { sent: true, to };
   }, { connection: getRedis(), concurrency: 5 });
+
 
   worker.on("completed", (job) => {
     console.log(`[Email] Job ${job.id} completed`);

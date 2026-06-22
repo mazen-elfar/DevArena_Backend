@@ -14,27 +14,32 @@ datasource db {
 // ═══════════════════════════════════════════
 
 model User {
-  id           String    @id @default(uuid()) @db.Uuid
-  username     String    @unique @db.VarChar(50)
-  email        String    @unique @db.VarChar(255)
-  passwordHash String    @map("password_hash") @db.VarChar(255)
-  avatarUrl    String?   @map("avatar_url") @db.Text
-  bannerUrl    String?   @map("banner_url") @db.Text
-  bio          String?   @db.Text
-  region       String?   @db.VarChar(100)
-  major        String?   @db.VarChar(100)
-  xp           BigInt    @default(0)
-  level        Int       @default(1)
-  coins        BigInt    @default(0)
-  isOnline     Boolean   @default(false) @map("is_online")
-  isVerified   Boolean   @default(false) @map("is_verified")
-  isBanned     Boolean   @default(false) @map("is_banned")
-  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
-  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz()
+  id               String    @id @default(uuid()) @db.Uuid
+  username         String    @unique @db.VarChar(50)
+  email            String    @unique @db.VarChar(255)
+  passwordHash     String?   @map("password_hash") @db.VarChar(255)
+  avatarUrl        String?   @map("avatar_url") @db.Text
+  bannerUrl        String?   @map("banner_url") @db.Text
+  bio              String?   @db.Text
+  region           String?   @db.VarChar(100)
+  major            String?   @db.VarChar(100)
+  xp               BigInt    @default(0)
+  level            Int       @default(1)
+  coins            BigInt    @default(0)
+  isOnline         Boolean   @default(false) @map("is_online")
+  isVerified       Boolean   @default(false) @map("is_verified")
+  isBanned         Boolean   @default(false) @map("is_banned")
+  // Social auth & profile fields
+  emailVerified    Boolean   @default(false) @map("email_verified")
+  providerEmail    String?   @map("provider_email") @db.VarChar(255)
+  profileCompleted Boolean   @default(false) @map("profile_completed")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt        DateTime? @map("deleted_at") @db.Timestamptz()
 
   // Relations
   profile                  Profile?
+  providers                UserProvider[]
   roles                    UserRole[]
   posts                    Post[]
   comments                 Comment[]
@@ -94,6 +99,33 @@ model UserRole {
 
   @@id([userId, roleId])
   @@map("user_roles")
+}
+
+// ═══════════════════════════════════════════
+// SOCIAL IDENTITY PROVIDERS
+// ═══════════════════════════════════════════
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+  GITHUB
+}
+
+model UserProvider {
+  id           String       @id @default(cuid())
+  userId       String       @map("user_id") @db.Uuid
+  provider     AuthProvider
+  providerUid  String       @map("provider_uid") @db.VarChar(255)
+  accessToken  String?      @map("access_token") @db.Text
+  refreshToken String?      @map("refresh_token") @db.Text
+  lastLoginAt  DateTime?    @map("last_login_at") @db.Timestamptz()
+  linkedAt     DateTime     @default(now()) @map("linked_at") @db.Timestamptz()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUid])
+  @@index([userId])
+  @@map("user_providers")
 }
 
 // ═══════════════════════════════════════════

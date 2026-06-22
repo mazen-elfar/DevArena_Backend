@@ -1,7 +1,9 @@
 import { getPrisma } from "../config/database.js";
-import { getRedis } from "../config/redis.js";
+import { getRedis, isRedisAvailable } from "../config/redis.js";
 
 export function setupDailyQuestWorker() {
+  if (!isRedisAvailable()) return;
+
   // Run daily at midnight UTC
   const now = new Date();
   const tomorrow = new Date(now);
@@ -9,16 +11,21 @@ export function setupDailyQuestWorker() {
   const msUntilMidnight = tomorrow.getTime() - now.getTime();
 
   setTimeout(async () => {
+    if (!isRedisAvailable()) return;
     await rotateDailyQuest();
     // Then run every 24 hours
-    setInterval(rotateDailyQuest, 24 * 60 * 60 * 1000);
+    setInterval(() => {
+      if (isRedisAvailable()) rotateDailyQuest();
+    }, 24 * 60 * 60 * 1000);
   }, msUntilMidnight);
 }
 
 async function rotateDailyQuest() {
   try {
+    if (!isRedisAvailable()) return;
     const prisma = getPrisma();
     const redis = getRedis();
+
 
     // Select a random active quest
     const quests = await prisma.quest.findMany({
