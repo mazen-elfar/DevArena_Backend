@@ -8,19 +8,18 @@ export class RankingService {
     return Math.round(winnerRating + k * (1 - expectedScore));
   }
 
-  async updateRating(userId, won, opponentRating) {
+  async updateRating(profileId, won, opponentRating) {
     const prisma = getPrisma();
 
-    const profile = await prisma.profile.findUnique({ where: { userId } });
+    const profile = await prisma.profile.findUnique({ where: { id: profileId } });
     if (!profile) throw Errors.NotFound("Profile");
 
-    const k = profile.battlesWon < 30 ? 40 : profile.battlesWon <= 100 ? 25 : 15;
+    const k = profile.level < 30 ? 40 : profile.level <= 100 ? 25 : 15;
     const expectedScore = 1 / (1 + Math.pow(10, (opponentRating - profile.rating) / 400));
     const actualScore = won ? 1 : 0;
     const newRating = Math.max(0, Math.round(profile.rating + k * (actualScore - expectedScore)));
 
     const oldRating = profile.rating;
-    const oldRankId = profile.rankId;
 
     const newRank = await prisma.rank.findFirst({
       where: {
@@ -30,18 +29,16 @@ export class RankingService {
     });
 
     const updatedProfile = await prisma.profile.update({
-      where: { userId },
+      where: { id: profileId },
       data: {
         rating: newRating,
-        rankId: newRank?.id ?? profile.rankId,
-        ...(won ? { battlesWon: { increment: 1 } } : {}),
       },
     });
 
     await prisma.userRankHistory.create({
       data: {
-        userId,
-        rankId: newRank?.id ?? profile.rankId,
+        profileId,
+        rankId: newRank?.id ?? null,
         oldRating,
         newRating,
       },
@@ -51,9 +48,7 @@ export class RankingService {
       profile: updatedProfile,
       oldRating,
       newRating,
-      oldRankId,
-      newRankId: newRank?.id ?? profile.rankId,
-      rankChanged: oldRankId !== (newRank?.id ?? profile.rankId),
+      rankChanged: false,
     };
   }
 
@@ -65,9 +60,13 @@ export class RankingService {
         orderBy: { rating: "desc" },
         skip: (page - 1) * limit,
         take: limit,
-        include: {
-          user: { select: { id: true, username: true, avatarUrl: true } },
-          rank: { select: { id: true, name: true, color: true, iconUrl: true } },
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatar: true,
+          rating: true,
+          level: true,
         },
       }),
       prisma.profile.count(),
@@ -76,11 +75,11 @@ export class RankingService {
     return { items, total, page, limit, hasMore: page * limit < total };
   }
 
-  async getRankHistory(userId) {
+  async getRankHistory(profileId) {
     const prisma = getPrisma();
 
     const history = await prisma.userRankHistory.findMany({
-      where: { userId },
+      where: { profileId },
       orderBy: { changedAt: "desc" },
       include: {
         rank: { select: { id: true, name: true, color: true, iconUrl: true } },
@@ -90,20 +89,31 @@ export class RankingService {
     return history;
   }
 
-  async getUserRank(userId) {
+  async getUserRank(profileId) {
     const prisma = getPrisma();
 
     const profile = await prisma.profile.findUnique({
-      where: { userId },
-      include: {
-        user: { select: { id: true, username: true, avatarUrl: true } },
-        rank: { select: { id: true, name: true, color: true, iconUrl: true, minRating: true, maxRating: true } },
+      where: { id: profileId },
+      select: {
+        id: true,
+        username: true,
+        displayName: true,
+        avatar: true,
+        rating: true,
+        level: true,
       },
     });
 
     if (!profile) throw Errors.NotFound("Profile");
 
-    return profile;
+    const rank = await prisma.rank.findFirst({
+      where: {
+        minRating: { lte: profile.rating },
+        maxRating: { gte: profile.rating },
+      },
+    });
+
+    return { ...profile, rank };
   }
 
   async getAllRanks() {

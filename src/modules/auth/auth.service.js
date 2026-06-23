@@ -37,37 +37,38 @@ function memStore_del(token) {
 export class AuthService {
   constructor() {
     this._roleCache = new Map();
-    this._rankCache = new Map();
   }
 
   async register({ username, email, password }) {
     const prisma = getPrisma();
-    const existing = await prisma.user.findFirst({
-      where: { OR: [{ email }, { username }] },
-    });
-    if (existing) {
-      if (existing.email === email)
-        throw Errors.Conflict("Email already in use");
-      throw Errors.Conflict("Username already taken");
-    }
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) throw Errors.Conflict("Email already in use");
+
+    const existingProfile = await prisma.profile.findUnique({ where: { username } });
+    if (existingProfile) throw Errors.Conflict("Username already taken");
+
+    const passwordHash = await hashPassword(password);
 
     const roleId = await this._getDefaultRoleId();
-    const rankId = await this._getDefaultRankId();
-    const passwordHash = await hashPassword(password);
 
     const user = await prisma.user.create({
       data: {
-        username,
         email,
         passwordHash,
         profile: {
-          create: { rankId },
+          create: {
+            username,
+            displayName: username,
+          },
         },
         roles: {
           create: { roleId },
         },
       },
-      include: { roles: { include: { role: true } } },
+      include: {
+        roles: { include: { role: true } },
+        profile: true,
+      },
     });
 
     const tokens = this._generateTokens(user);
@@ -79,10 +80,12 @@ export class AuthService {
     const prisma = getPrisma();
     const user = await prisma.user.findUnique({
       where: { email },
-      include: { roles: { include: { role: true } } },
+      include: {
+        roles: { include: { role: true } },
+        profile: true,
+      },
     });
     if (!user) throw Errors.Unauthorized("Invalid credentials");
-    if (user.isBanned) throw Errors.Unauthorized("Account is banned");
     if (user.deletedAt) throw Errors.Unauthorized("Account is deleted");
 
     const valid = await comparePassword(password, user.passwordHash);
@@ -90,8 +93,8 @@ export class AuthService {
 
     const tokens = this._generateTokens(user);
     await this._storeRefreshToken(user.id, tokens.refreshToken);
-    await prisma.user.update({
-      where: { id: user.id },
+    await prisma.profile.update({
+      where: { userId: user.id },
       data: { isOnline: true },
     });
     return { user: this._sanitizeUser(user), ...tokens };
@@ -114,9 +117,12 @@ export class AuthService {
     const prisma = getPrisma();
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { roles: { include: { role: true } } },
+      include: {
+        roles: { include: { role: true } },
+        profile: true,
+      },
     });
-    if (!user || user.isBanned || user.deletedAt) {
+    if (!user || user.deletedAt) {
       await this._deleteRefreshToken(refreshToken);
       throw Errors.Unauthorized("Account not available");
     }
@@ -130,8 +136,8 @@ export class AuthService {
   async logout(userId, refreshToken) {
     if (refreshToken) await this._deleteRefreshToken(refreshToken);
     const prisma = getPrisma();
-    await prisma.user.update({
-      where: { id: userId },
+    await prisma.profile.update({
+      where: { userId: userId },
       data: { isOnline: false },
     });
   }
@@ -139,7 +145,7 @@ export class AuthService {
   _generateTokens(user) {
     const payload = {
       sub: user.id,
-      username: user.username,
+      username: user.profile?.username,
       roles: user.roles.map((ur) => ur.role.name),
     };
     const accessToken = generateToken(payload);
@@ -167,12 +173,15 @@ export class AuthService {
   }
 
   _sanitizeUser(user) {
+    if (!user) return null;
     // eslint-disable-next-line no-unused-vars
     const { passwordHash, ...safe } = user;
     
-    // Convert BigInt fields to numbers for JSON serialization
-    if (typeof safe.xp === "bigint") safe.xp = Number(safe.xp);
-    if (typeof safe.coins === "bigint") safe.coins = Number(safe.coins);
+    // Flatten and convert BigInt fields from profile
+    if (safe.profile) {
+      if (typeof safe.profile.currentXP === "bigint") safe.profile.currentXP = Number(safe.profile.currentXP);
+      if (typeof safe.profile.totalXP === "bigint") safe.profile.totalXP = Number(safe.profile.totalXP);
+    }
     
     return safe;
   }
@@ -196,7 +205,14 @@ export class AuthService {
     // 1. Existing provider link
     const existingProvider = await prisma.userProvider.findUnique({
       where: { provider_providerUid: { provider, providerUid } },
-      include: { user: { include: { roles: { include: { role: true } } } } },
+      include: {
+        user: {
+          include: {
+            roles: { include: { role: true } },
+            profile: true,
+          },
+        },
+      },
     });
 
     if (existingProvider) {
@@ -212,7 +228,10 @@ export class AuthService {
     if (email) {
       const userByEmail = await prisma.user.findUnique({
         where: { email },
-        include: { roles: { include: { role: true } } },
+        include: {
+          roles: { include: { role: true } },
+          profile: true,
+        },
       });
 
       if (userByEmail) {
@@ -235,18 +254,18 @@ export class AuthService {
     const resolvedEmail = email ?? `${provider.toLowerCase()}_${providerUid}@noemail.devarena.io`;
 
     const roleId = await this._getDefaultRoleId();
-    const rankId = await this._getDefaultRankId();
 
     const newUser = await prisma.user.create({
       data: {
-        username,
         email: resolvedEmail,
-        providerEmail: email,
-        avatarUrl,
         emailVerified: !!email,
-        profileCompleted: false,
         profile: {
-          create: { rankId },
+          create: {
+            username,
+            displayName: name || username,
+            avatar: avatarUrl,
+            profileCompleted: false,
+          },
         },
         roles: {
           create: { roleId },
@@ -261,7 +280,10 @@ export class AuthService {
           },
         },
       },
-      include: { roles: { include: { role: true } } },
+      include: {
+        roles: { include: { role: true } },
+        profile: true,
+      },
     });
 
     return { user: newUser, isNew: true };
@@ -280,9 +302,12 @@ export class AuthService {
     const prisma = getPrisma();
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { roles: { include: { role: true } } },
+      include: {
+        roles: { include: { role: true } },
+        profile: true,
+      },
     });
-    if (!user || user.isBanned || user.deletedAt) throw Errors.Unauthorized("Account not available");
+    if (!user || user.deletedAt) throw Errors.Unauthorized("Account not available");
 
     const tokens = this._generateTokens(user);
     await this._storeRefreshToken(user.id, tokens.refreshToken);
@@ -317,7 +342,7 @@ export class AuthService {
     for (let i = 0; i < 10; i++) {
       const suffix = i === 0 ? "" : `_${Math.floor(1000 + Math.random() * 9000)}`;
       const candidate = `${sanitized}${suffix}`.slice(0, 50);
-      const existing = await prisma.user.findUnique({ where: { username: candidate } });
+      const existing = await prisma.profile.findUnique({ where: { username: candidate } });
       if (!existing) return candidate;
     }
 
@@ -327,31 +352,21 @@ export class AuthService {
   // ─── Private Helpers ───────────────────────────────────────────────────────
 
   async _getDefaultRoleId() {
-    if (this._roleCache.has("user")) return this._roleCache.get("user");
+    if (this._roleCache.has("USER")) return this._roleCache.get("USER");
 
     const prisma = getPrisma();
-    const role = await prisma.role.findUnique({ where: { name: "user" } });
+    const role = await prisma.role.findUnique({ where: { name: "USER" } });
     if (!role) {
-      console.error("✗ Critical error: Role 'user' not found in database.");
+      console.error("✗ Critical error: Role 'USER' not found in database.");
       throw Errors.Internal("Platform roles not initialized. Please run seeds.");
     }
 
-    this._roleCache.set("user", role.id);
+    this._roleCache.set("USER", role.id);
     return role.id;
   }
 
-  async _getDefaultRankId() {
-    if (this._rankCache.has("Bronze")) return this._rankCache.get("Bronze");
-
-    const prisma = getPrisma();
-    const rank = await prisma.rank.findUnique({ where: { name: "Bronze" } });
-    if (!rank) {
-      console.error("✗ Critical error: Rank 'Bronze' not found in database.");
-      throw Errors.Internal("Platform ranks not initialized. Please run seeds.");
-    }
-
-    this._rankCache.set("Bronze", rank.id);
-    return rank.id;
-  }
 }
+
+// Singleton export
+export const authService = new AuthService();
 

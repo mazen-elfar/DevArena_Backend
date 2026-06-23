@@ -2,11 +2,11 @@ import { getPrisma } from "../../config/database.js";
 import { Errors } from "../../shared/errors/error-definitions.js";
 
 export class PaymentsService {
-  async createPayment(userId, { type, amount, currency, gateway, metadata }) {
+  async createPayment(profileId, { type, amount, currency, gateway, metadata }) {
     const prisma = getPrisma();
     return prisma.payment.create({
       data: {
-        userId,
+        profileId,
         type,
         amount,
         currency: currency || "USD",
@@ -17,23 +17,23 @@ export class PaymentsService {
     });
   }
 
-  async getPayments(userId, { page, limit }) {
+  async getPayments(profileId, { page, limit }) {
     const prisma = getPrisma();
     const [items, total] = await Promise.all([
       prisma.payment.findMany({
-        where: { userId },
+        where: { profileId },
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: "desc" },
       }),
-      prisma.payment.count({ where: { userId } }),
+      prisma.payment.count({ where: { profileId } }),
     ]);
     return { items, total, page, limit, hasMore: page * limit < total };
   }
 
-  async getPayment(paymentId, userId, isAdmin = false) {
+  async getPayment(paymentId, profileId, isAdmin = false) {
     const prisma = getPrisma();
-    const where = isAdmin ? { id: paymentId } : { id: paymentId, userId };
+    const where = isAdmin ? { id: paymentId } : { id: paymentId, profileId };
     const payment = await prisma.payment.findFirst({ where });
     if (!payment) throw Errors.NotFound("Payment");
     return payment;
@@ -51,16 +51,16 @@ export class PaymentsService {
     return prisma.payment.update({ where: { id: paymentId }, data });
   }
 
-  async requestPayout(userId, { amount, method, accountRef }) {
+  async requestPayout(profileId, { amount, method, accountRef }) {
     const prisma = getPrisma();
 
     const walletBalance = await prisma.payment.aggregate({
-      where: { userId, status: "COMPLETED", type: "PRIZE_PAYOUT" },
+      where: { profileId, status: "COMPLETED", type: "PRIZE_PAYOUT" },
       _sum: { amount: true },
     });
 
     const withdrawals = await prisma.payout.aggregate({
-      where: { userId, status: { not: "FAILED" } },
+      where: { profileId, status: { not: "FAILED" } },
       _sum: { amount: true },
     });
 
@@ -74,7 +74,7 @@ export class PaymentsService {
 
     return prisma.payout.create({
       data: {
-        userId,
+        profileId,
         amount,
         status: "PENDING",
         method,
@@ -83,33 +83,33 @@ export class PaymentsService {
     });
   }
 
-  async getPayouts(userId, { page, limit }) {
+  async getPayouts(profileId, { page, limit }) {
     const prisma = getPrisma();
     const [items, total] = await Promise.all([
       prisma.payout.findMany({
-        where: { userId },
+        where: { profileId },
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: "desc" },
       }),
-      prisma.payout.count({ where: { userId } }),
+      prisma.payout.count({ where: { profileId } }),
     ]);
     return { items, total, page, limit, hasMore: page * limit < total };
   }
 
-  async getSubscriptions(userId) {
+  async getSubscriptions(profileId) {
     const prisma = getPrisma();
     return prisma.subscription.findMany({
-      where: { userId },
+      where: { profileId },
       orderBy: { createdAt: "desc" },
     });
   }
 
-  async createSubscription(userId, { plan, price }) {
+  async createSubscription(profileId, { plan, price }) {
     const prisma = getPrisma();
 
     const existing = await prisma.subscription.findFirst({
-      where: { userId, status: "ACTIVE" },
+      where: { profileId, status: "ACTIVE" },
     });
     if (existing) throw Errors.Conflict("Already has an active subscription");
 
@@ -120,7 +120,7 @@ export class PaymentsService {
 
     return prisma.subscription.create({
       data: {
-        userId,
+        profileId,
         plan,
         price,
         status: "ACTIVE",
@@ -131,13 +131,13 @@ export class PaymentsService {
     });
   }
 
-  async cancelSubscription(subscriptionId, userId) {
+  async cancelSubscription(subscriptionId, profileId) {
     const prisma = getPrisma();
     const subscription = await prisma.subscription.findUnique({
       where: { id: subscriptionId },
     });
     if (!subscription) throw Errors.NotFound("Subscription");
-    if (subscription.userId !== userId) throw Errors.Forbidden();
+    if (subscription.profileId !== profileId) throw Errors.Forbidden();
     if (subscription.status !== "ACTIVE") throw Errors.BadRequest("Subscription is not active");
 
     return prisma.subscription.update({

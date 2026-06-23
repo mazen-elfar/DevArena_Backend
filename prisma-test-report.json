@@ -1,0 +1,220 @@
+[
+  {
+    "model": "user",
+    "status": "OK"
+  },
+  {
+    "model": "profile",
+    "status": "OK"
+  },
+  {
+    "model": "role",
+    "status": "OK"
+  },
+  {
+    "model": "permission",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.permission.count()` invocation:\n\n\nThe table `public.permissions` does not exist in the current database."
+  },
+  {
+    "model": "rolePermission",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.rolePermission.count()` invocation:\n\n\nThe table `public.role_permissions` does not exist in the current database."
+  },
+  {
+    "model": "userPermission",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.userPermission.count()` invocation:\n\n\nThe table `public.user_permissions` does not exist in the current database."
+  },
+  {
+    "model": "userRole",
+    "status": "OK"
+  },
+  {
+    "model": "userProvider",
+    "status": "OK"
+  },
+  {
+    "model": "skillCategory",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.skillCategory.count()` invocation:\n\n\nThe table `public.skill_categories` does not exist in the current database."
+  },
+  {
+    "model": "skill",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.skill.count()` invocation:\n\n\nThe table `public.skills` does not exist in the current database."
+  },
+  {
+    "model": "userSkill",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.userSkill.count()` invocation:\n\n\nThe table `public.user_skills` does not exist in the current database."
+  },
+  {
+    "model": "post",
+    "status": "OK"
+  },
+  {
+    "model": "comment",
+    "status": "OK"
+  },
+  {
+    "model": "reaction",
+    "status": "OK"
+  },
+  {
+    "model": "savedPost",
+    "status": "OK"
+  },
+  {
+    "model": "follow",
+    "status": "OK"
+  },
+  {
+    "model": "developerCircle",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.developerCircle.count()` invocation:\n\n\nThe table `public.developer_circles` does not exist in the current database."
+  },
+  {
+    "model": "circleMember",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.circleMember.count()` invocation:\n\n\nThe table `public.circle_members` does not exist in the current database."
+  },
+  {
+    "model": "friendship",
+    "status": "OK"
+  },
+  {
+    "model": "conversation",
+    "status": "OK"
+  },
+  {
+    "model": "conversationParticipant",
+    "status": "OK"
+  },
+  {
+    "model": "message",
+    "status": "OK"
+  },
+  {
+    "model": "questCategory",
+    "status": "OK"
+  },
+  {
+    "model": "quest",
+    "status": "OK"
+  },
+  {
+    "model": "testCase",
+    "status": "OK"
+  },
+  {
+    "model": "submission",
+    "status": "OK"
+  },
+  {
+    "model": "battle",
+    "status": "OK"
+  },
+  {
+    "model": "battlePlayer",
+    "status": "OK"
+  },
+  {
+    "model": "battleSubmission",
+    "status": "OK"
+  },
+  {
+    "model": "matchmakingQueue",
+    "status": "OK"
+  },
+  {
+    "model": "rank",
+    "status": "OK"
+  },
+  {
+    "model": "rankHistory",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.rankHistory.count()` invocation:\n\n\nThe table `public.rank_history` does not exist in the current database."
+  },
+  {
+    "model": "tournament",
+    "status": "OK"
+  },
+  {
+    "model": "tournamentRegistration",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.tournamentRegistration.count()` invocation:\n\n\nThe column `tournament_registrations.id` does not exist in the current database."
+  },
+  {
+    "model": "tournamentParticipant",
+    "status": "OK"
+  },
+  {
+    "model": "tournamentResult",
+    "status": "OK"
+  },
+  {
+    "model": "reputation",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.reputation.count()` invocation:\n\n\nThe table `public.profile_reputation` does not exist in the current database."
+  },
+  {
+    "model": "notification",
+    "status": "OK"
+  },
+  {
+    "model": "xpLog",
+    "status": "OK"
+  },
+  {
+    "model": "userRankHistory",
+    "status": "OK"
+  },
+  {
+    "model": "userAchievement",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.userAchievement.count()` invocation:\n\n\nThe column `user_achievements.profile_id` does not exist in the current database."
+  },
+  {
+    "model": "coinTransaction",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.coinTransaction.count()` invocation:\n\n\nThe table `public.coin_transactions` does not exist in the current database."
+  },
+  {
+    "model": "streak",
+    "status": "OK"
+  },
+  {
+    "model": "organizationMember",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.organizationMember.count()` invocation:\n\n\nThe table `public.organization_members` does not exist in the current database."
+  },
+  {
+    "model": "teamMember",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.teamMember.count()` invocation:\n\n\nThe table `public.team_members` does not exist in the current database."
+  },
+  {
+    "model": "teamInvite",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.teamInvite.count()` invocation:\n\n\nThe table `public.team_invites` does not exist in the current database."
+  },
+  {
+    "model": "verificationRequest",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.verificationRequest.count()` invocation:\n\n\nThe table `public.verification_requests` does not exist in the current database."
+  },
+  {
+    "model": "userTitle",
+    "status": "FAILED",
+    "error": "\nInvalid `prisma.userTitle.count()` invocation:\n\n\nThe column `user_titles.profile_id` does not exist in the current database."
+  },
+  {
+    "model": "adminAction",
+    "status": "OK"
+  },
+  {
+    "model": "report",
+    "status": "OK"
+  }
+]

@@ -4,8 +4,8 @@ import { Errors } from "../../shared/errors/error-definitions.js";
 const participantSelect = {
   id: true,
   username: true,
-  email: true,
-  avatarUrl: true,
+  displayName: true,
+  avatar: true,
   bio: true,
   level: true,
   isOnline: true,
@@ -19,8 +19,8 @@ export class MessagingService {
 
     const prisma = getPrisma();
 
-    const otherUser = await prisma.user.findUnique({ where: { id: otherUserId } });
-    if (!otherUser || otherUser.deletedAt) {
+    const otherProfile = await prisma.profile.findUnique({ where: { id: otherUserId } });
+    if (!otherProfile) {
       throw Errors.NotFound("User");
     }
 
@@ -35,7 +35,7 @@ export class MessagingService {
         conversation: {
           include: {
             participants: {
-              include: { user: { select: participantSelect } },
+              include: { profile: { select: participantSelect } },
             },
           },
         },
@@ -54,7 +54,7 @@ export class MessagingService {
       },
       include: {
         participants: {
-          include: { user: { select: participantSelect } },
+          include: { profile: { select: participantSelect } },
         },
       },
     });
@@ -71,7 +71,7 @@ export class MessagingService {
         conversation: {
           include: {
             participants: {
-              include: { user: { select: participantSelect } },
+              include: { profile: { select: participantSelect } },
             },
             messages: {
               orderBy: { createdAt: "desc" },
@@ -88,7 +88,7 @@ export class MessagingService {
       const conv = p.conversation;
       const otherParticipants = conv.participants
         .filter((part) => part.userId !== userId)
-        .map((part) => part.user);
+        .map((part) => part.profile);
       const lastMessage = conv.messages[0] || null;
 
       return {
@@ -203,31 +203,18 @@ export class MessagingService {
   async getUnreadCount(userId) {
     const prisma = getPrisma();
 
-    const participations = await prisma.conversationParticipant.findMany({
-      where: { userId },
-      select: {
-        conversationId: true,
-        lastReadAt: true,
-      },
-    });
-
-    let totalUnread = 0;
-
-    for (const p of participations) {
-      const where = {
-        conversationId: p.conversationId,
+    const result = await prisma.message.groupBy({
+      by: ["conversationId"],
+      where: {
+        conversation: {
+          participants: { some: { userId } },
+        },
         senderId: { not: userId },
         isRead: false,
-      };
+      },
+      _count: { id: true },
+    });
 
-      if (p.lastReadAt) {
-        where.createdAt = { gt: p.lastReadAt };
-      }
-
-      const count = await prisma.message.count({ where });
-      totalUnread += count;
-    }
-
-    return totalUnread;
+    return result.reduce((sum, r) => sum + r._count.id, 0);
   }
 }

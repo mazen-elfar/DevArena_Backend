@@ -2,81 +2,81 @@ import { getPrisma } from "../../config/database.js";
 import { Errors } from "../../shared/errors/error-definitions.js";
 
 export class GamificationService {
-  async addXp(userId, amount, source, description, referenceId) {
+  async addXp(profileId, amount, source, description, referenceId) {
     const prisma = getPrisma();
     if (amount <= 0) throw Errors.BadRequest("XP amount must be positive");
 
-    const [xpLog, user] = await prisma.$transaction([
+    const [xpLog, profile] = await prisma.$transaction([
       prisma.xpLog.create({
-        data: { userId, amount, source, description, referenceId },
+        data: { profileId, amount, source, description, referenceId },
       }),
-      prisma.user.update({
-        where: { id: userId },
-        data: { xp: { increment: amount } },
+      prisma.profile.update({
+        where: { id: profileId },
+        data: {
+          currentXP: { increment: amount },
+          totalXP: { increment: amount },
+        },
       }),
     ]);
 
-    const newLevel = Math.floor(Math.sqrt(Number(user.xp) / 100)) + 1;
-    if (newLevel > user.level) {
-      await prisma.user.update({
-        where: { id: userId },
+    const newLevel = Math.floor(Math.sqrt(Number(profile.totalXP) / 100)) + 1;
+    if (newLevel > profile.level) {
+      await prisma.profile.update({
+        where: { id: profileId },
         data: { level: newLevel },
       });
     }
 
-    return { xpLog, newXp: Number(user.xp) + amount, newLevel };
+    return { xpLog, newXp: Number(profile.totalXP) + amount, newLevel };
   }
 
-  async checkAchievements(userId) {
+  async checkAchievements(profileId) {
     const prisma = getPrisma();
 
-    const [achievements, userStats, existingIds] = await Promise.all([
-      prisma.achievement.findMany({ where: { isActive: true } }),
-      prisma.user.findUnique({
-        where: { id: userId },
+    const [achievements, profileStats, existingAchievementIds] = await Promise.all([
+      prisma.achievement.findMany(),
+      prisma.profile.findUnique({
+        where: { id: profileId },
         select: {
-          xp: true,
+          totalXP: true,
           level: true,
-          coins: true,
           submissions: { select: { id: true } },
           battlePlayers: { select: { id: true } },
-          userAchievements: { select: { achievementId: true } },
         },
       }),
       prisma.userAchievement.findMany({
-        where: { userId },
+        where: { profileId },
         select: { achievementId: true },
       }),
     ]);
 
-    if (!userStats) throw Errors.NotFound("User");
+    if (!profileStats) throw Errors.NotFound("Profile");
 
-    const unlockedSet = new Set(existingIds.map((e) => e.achievementId));
+    const unlockedSet = new Set(existingAchievementIds.map((e) => e.achievementId));
     const newlyUnlocked = [];
 
     const stats = {
-      xp: Number(userStats.xp),
-      level: userStats.level,
-      coins: Number(userStats.coins),
-      questsCompleted: userStats.submissions.length,
-      battlesPlayed: userStats.battlePlayers.length,
+      xp: Number(profileStats.totalXP),
+      level: profileStats.level,
+      questsCompleted: profileStats.submissions.length,
+      battlesPlayed: profileStats.battlePlayers.length,
     };
 
     for (const achievement of achievements) {
       if (unlockedSet.has(achievement.id)) continue;
-      if (this._checkCondition(achievement.condition, stats)) {
+      if (this._checkCondition(achievement, stats)) {
         newlyUnlocked.push(achievement);
       }
     }
 
     if (newlyUnlocked.length > 0) {
       await prisma.userAchievement.createMany({
-        data: newlyUnlocked.map((a) => ({ userId, achievementId: a.id })),
+        data: newlyUnlocked.map((a) => ({ profileId, achievementId: a.id })),
       });
 
       for (const achievement of newlyUnlocked) {
         if (achievement.xpReward > 0) {
-          await this.addXp(userId, achievement.xpReward, "ACHIEVEMENT", achievement.name);
+          await this.addXp(profileId, achievement.xpReward, "ACHIEVEMENT", achievement.name);
         }
       }
     }
@@ -84,20 +84,20 @@ export class GamificationService {
     return { unlocked: newlyUnlocked };
   }
 
-  _checkCondition(condition, stats) {
-    for (const [key, value] of Object.entries(condition)) {
-      if (key === "minXp" && stats.xp < value) return false;
-      if (key === "minLevel" && stats.level < value) return false;
-      if (key === "minCoins" && stats.coins < value) return false;
-      if (key === "minQuests" && stats.questsCompleted < value) return false;
-      if (key === "minBattles" && stats.battlesPlayed < value) return false;
-    }
+  _checkCondition(achievement, stats) {
+    const { name, xpReward } = achievement;
+    if (name === "First Blood" && stats.questsCompleted < 1) return false;
+    if (name === "Speed Demon" && stats.questsCompleted < 1) return false;
+    if (name === "Battle Novice" && stats.battlesPlayed < 1) return false;
+    if (name === "Battle Master" && stats.battlesPlayed < 10) return false;
+    if (name === "Code Warrior" && stats.questsCompleted < 50) return false;
+    if (xpReward >= 1000 && stats.level < 10) return false;
     return true;
   }
 
   async getAchievements({ page, limit, category }) {
     const prisma = getPrisma();
-    const where = { isActive: true };
+    const where = {};
     if (category) where.category = category;
 
     const [items, total] = await Promise.all([
@@ -105,7 +105,7 @@ export class GamificationService {
         where,
         skip: (page - 1) * limit,
         take: limit,
-        orderBy: { sortOrder: "asc" },
+        orderBy: { name: "asc" },
       }),
       prisma.achievement.count({ where }),
     ]);
@@ -113,10 +113,10 @@ export class GamificationService {
     return { items, total, page, limit, hasMore: page * limit < total };
   }
 
-  async getUserAchievements(userId) {
+  async getUserAchievements(profileId) {
     const prisma = getPrisma();
     return prisma.userAchievement.findMany({
-      where: { userId },
+      where: { profileId },
       include: { achievement: true },
       orderBy: { unlockedAt: "desc" },
     });
@@ -127,29 +127,29 @@ export class GamificationService {
     return prisma.title.findMany({ orderBy: { name: "asc" } });
   }
 
-  async getUserTitles(userId) {
+  async getUserTitles(profileId) {
     const prisma = getPrisma();
     return prisma.userTitle.findMany({
-      where: { userId },
+      where: { profileId },
       include: { title: true },
     });
   }
 
-  async equipTitle(userId, titleId) {
+  async equipTitle(profileId, titleId) {
     const prisma = getPrisma();
 
     const owned = await prisma.userTitle.findUnique({
-      where: { userId_titleId: { userId, titleId } },
+      where: { profileId_titleId: { profileId, titleId } },
     });
     if (!owned) throw Errors.NotFound("Title not unlocked");
 
     await prisma.$transaction([
       prisma.userTitle.updateMany({
-        where: { userId, equipped: true },
+        where: { profileId, equipped: true },
         data: { equipped: false },
       }),
       prisma.userTitle.update({
-        where: { userId_titleId: { userId, titleId } },
+        where: { profileId_titleId: { profileId, titleId } },
         data: { equipped: true },
       }),
     ]);
@@ -157,27 +157,27 @@ export class GamificationService {
     return { titleId, equipped: true };
   }
 
-  async getStreaks(userId) {
+  async getStreaks(profileId) {
     const prisma = getPrisma();
     return prisma.streak.findMany({
-      where: { userId },
+      where: { profileId },
       orderBy: { type: "asc" },
     });
   }
 
-  async updateStreak(userId, type) {
+  async updateStreak(profileId, type) {
     const prisma = getPrisma();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const streak = await prisma.streak.findUnique({
-      where: { userId_type: { userId, type } },
+      where: { profileId_type: { profileId, type } },
     });
 
     if (!streak) {
       return prisma.streak.create({
         data: {
-          userId,
+          profileId,
           type,
           currentStreak: 1,
           longestStreak: 1,
@@ -196,21 +196,20 @@ export class GamificationService {
     }
 
     if (diffDays > 1) {
-      const newStreak = await prisma.streak.update({
-        where: { userId_type: { userId, type } },
+      return prisma.streak.update({
+        where: { profileId_type: { profileId, type } },
         data: {
           currentStreak: 1,
           lastActiveDate: today,
         },
       });
-      return newStreak;
     }
 
     const newCurrent = streak.currentStreak + 1;
     const newLongest = Math.max(streak.longestStreak, newCurrent);
 
     return prisma.streak.update({
-      where: { userId_type: { userId, type } },
+      where: { profileId_type: { profileId, type } },
       data: {
         currentStreak: newCurrent,
         longestStreak: newLongest,
@@ -219,49 +218,42 @@ export class GamificationService {
     });
   }
 
-  async addCoins(userId, amount, reason, referenceType, referenceId) {
+  async addCoins(profileId, amount, reason, referenceType, referenceId) {
     const prisma = getPrisma();
     if (amount === 0) throw Errors.BadRequest("Amount cannot be zero");
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) throw Errors.NotFound("User");
+    const profile = await prisma.profile.findUnique({ where: { id: profileId } });
+    if (!profile) throw Errors.NotFound("Profile");
 
-    const newBalance = Number(user.coins) + amount;
-    if (newBalance < 0) throw Errors.BadRequest("Insufficient coins");
-
-    const [transaction, updatedUser] = await prisma.$transaction([
+    const [transaction] = await prisma.$transaction([
       prisma.coinTransaction.create({
         data: {
-          userId,
+          profileId,
           amount,
-          balanceAfter: BigInt(newBalance),
+          balanceAfter: BigInt(0),
           reason,
           referenceType,
           referenceId,
         },
       }),
-      prisma.user.update({
-        where: { id: userId },
-        data: { coins: newBalance },
-      }),
     ]);
 
-    return { transaction, newBalance };
+    return { transaction };
   }
 
-  async getCoinBalance(userId) {
+  async getCoinBalance(profileId) {
     const prisma = getPrisma();
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { coins: true },
+    const lastTx = await prisma.coinTransaction.findFirst({
+      where: { profileId },
+      orderBy: { createdAt: "desc" },
+      select: { balanceAfter: true },
     });
-    if (!user) throw Errors.NotFound("User");
-    return { coins: Number(user.coins) };
+    return { coins: lastTx ? Number(lastTx.balanceAfter) : 0 };
   }
 
-  async getCoinHistory(userId, { page, limit }) {
+  async getCoinHistory(profileId, { page, limit }) {
     const prisma = getPrisma();
-    const where = { userId };
+    const where = { profileId };
 
     const [items, total] = await Promise.all([
       prisma.coinTransaction.findMany({

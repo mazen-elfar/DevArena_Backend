@@ -18,14 +18,18 @@ export function setupSocketIO(httpServer) {
 
       const payload = verifyAccessToken(token);
       const prisma = getPrisma();
-      const user = await prisma.user.findUnique({ where: { id: payload.sub } });
+      const user = await prisma.user.findUnique({
+        where: { id: payload.sub },
+        include: { profile: true },
+      });
 
-      if (!user || user.isBanned || user.deletedAt) {
+      if (!user || user.deletedAt) {
         return next(new Error("Account not available"));
       }
 
       socket.userId = user.id;
-      socket.username = user.username;
+      socket.profileId = user.profile?.id;
+      socket.username = user.profile?.username;
       next();
     } catch (error) {
       next(new Error("Invalid token"));
@@ -36,14 +40,27 @@ export function setupSocketIO(httpServer) {
     console.log(`[Socket] ${socket.username} connected (${socket.id})`);
 
     socket.join(`user:${socket.userId}`);
+    if (socket.profileId) {
+      socket.join(`profile:${socket.profileId}`);
+    }
 
-    getPrisma().user.update({ where: { id: socket.userId }, data: { isOnline: true } });
+    if (socket.profileId) {
+      getPrisma().profile.update({
+        where: { id: socket.profileId },
+        data: { isOnline: true },
+      }).catch(() => {});
+    }
 
     setupEventHandlers(io, socket);
 
     socket.on("disconnect", async () => {
       console.log(`[Socket] ${socket.username} disconnected (${socket.id})`);
-      await getPrisma().user.update({ where: { id: socket.userId }, data: { isOnline: false } });
+      if (socket.profileId) {
+        await getPrisma().profile.update({
+          where: { id: socket.profileId },
+          data: { isOnline: false },
+        }).catch(() => {});
+      }
     });
   });
 

@@ -1,0 +1,1174 @@
+{
+  "missingTables": [
+    {
+      "model": "Permission",
+      "table": "permissions",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'permissions';"
+    },
+    {
+      "model": "RolePermission",
+      "table": "role_permissions",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'role_permissions';"
+    },
+    {
+      "model": "UserPermission",
+      "table": "user_permissions",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'user_permissions';"
+    },
+    {
+      "model": "SkillCategory",
+      "table": "skill_categories",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'skill_categories';"
+    },
+    {
+      "model": "Skill",
+      "table": "skills",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'skills';"
+    },
+    {
+      "model": "UserSkill",
+      "table": "user_skills",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'user_skills';"
+    },
+    {
+      "model": "DeveloperCircle",
+      "table": "developer_circles",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'developer_circles';"
+    },
+    {
+      "model": "CircleMember",
+      "table": "circle_members",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'circle_members';"
+    },
+    {
+      "model": "RankHistory",
+      "table": "rank_history",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'rank_history';"
+    },
+    {
+      "model": "Reputation",
+      "table": "profile_reputation",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'profile_reputation';"
+    },
+    {
+      "model": "Organization",
+      "table": "organizations",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'organizations';"
+    },
+    {
+      "model": "OrganizationMember",
+      "table": "organization_members",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'organization_members';"
+    },
+    {
+      "model": "Team",
+      "table": "teams",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'teams';"
+    },
+    {
+      "model": "TeamMember",
+      "table": "team_members",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'team_members';"
+    },
+    {
+      "model": "TeamInvite",
+      "table": "team_invites",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'team_invites';"
+    },
+    {
+      "model": "VerificationRequest",
+      "table": "verification_requests",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'verification_requests';"
+    },
+    {
+      "model": "CoinTransaction",
+      "table": "coin_transactions",
+      "proof": "SELECT table_name FROM information_schema.tables WHERE table_name = 'coin_transactions';"
+    }
+  ],
+  "missingColumns": [
+    {
+      "model": "User",
+      "table": "users",
+      "field": "provider",
+      "schemaState": "AuthProvider",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'provider';"
+    },
+    {
+      "model": "User",
+      "table": "users",
+      "field": "roles",
+      "schemaState": "UserRole[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'roles';"
+    },
+    {
+      "model": "User",
+      "table": "users",
+      "field": "permissions",
+      "schemaState": "UserPermission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'permissions';"
+    },
+    {
+      "model": "User",
+      "table": "users",
+      "field": "profile",
+      "schemaState": "Profile?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'profile';"
+    },
+    {
+      "model": "User",
+      "table": "users",
+      "field": "providers",
+      "schemaState": "UserProvider[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'providers';"
+    },
+    {
+      "model": "Role",
+      "table": "roles",
+      "field": "users",
+      "schemaState": "UserRole[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'roles' AND column_name = 'users';"
+    },
+    {
+      "model": "Role",
+      "table": "roles",
+      "field": "permissions",
+      "schemaState": "RolePermission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'roles' AND column_name = 'permissions';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "username",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'username';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "avatar",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'avatar';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "banner",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'banner';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "bio",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'bio';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "university",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'university';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "major",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'major';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "graduation_year",
+      "schemaState": "Int?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'graduation_year';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "country",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'country';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "region",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'region';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "github_username",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'github_username';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "github_url",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'github_url';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "linkedin_url",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'linkedin_url';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "portfolio_url",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'portfolio_url';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "website_url",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'website_url';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "level",
+      "schemaState": "Int",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'level';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "current_xp",
+      "schemaState": "BigInt",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'current_xp';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "total_xp",
+      "schemaState": "BigInt",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'total_xp';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "reputation",
+      "schemaState": "Int",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'reputation';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "profile_completed",
+      "schemaState": "Boolean",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'profile_completed';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "is_verified",
+      "schemaState": "Boolean",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'is_verified';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "is_online",
+      "schemaState": "Boolean",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'is_online';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "reputationScores",
+      "schemaState": "Reputation?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'reputationScores';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "skills",
+      "schemaState": "UserSkill[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'skills';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "circles",
+      "schemaState": "CircleMember[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'circles';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "ownedCircles",
+      "schemaState": "DeveloperCircle[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'ownedCircles';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "submissions",
+      "schemaState": "Submission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'submissions';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "battlePlayers",
+      "schemaState": "BattlePlayer[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'battlePlayers';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "battleSubmissions",
+      "schemaState": "BattleSubmission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'battleSubmissions';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "wonBattles",
+      "schemaState": "Battle[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'wonBattles';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "tournamentRegistrations",
+      "schemaState": "TournamentRegistration[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'tournamentRegistrations';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "tournamentParticipants",
+      "schemaState": "TournamentParticipant[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'tournamentParticipants';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "tournamentResults",
+      "schemaState": "TournamentResult[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'tournamentResults';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "rankHistory",
+      "schemaState": "UserRankHistory[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'rankHistory';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "xpLogs",
+      "schemaState": "XpLog[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'xpLogs';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "userAchievements",
+      "schemaState": "UserAchievement[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'userAchievements';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "coinTransactions",
+      "schemaState": "CoinTransaction[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'coinTransactions';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "streaks",
+      "schemaState": "Streak[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'streaks';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "organizationMembers",
+      "schemaState": "OrganizationMember[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'organizationMembers';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "teamMemberships",
+      "schemaState": "TeamMember[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'teamMemberships';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "verificationRequests",
+      "schemaState": "VerificationRequest[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'verificationRequests';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "userTitles",
+      "schemaState": "UserTitle[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'userTitles';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "notifications",
+      "schemaState": "Notification[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'notifications';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "subscriptions",
+      "schemaState": "Subscription[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'subscriptions';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "matchmakingQueue",
+      "schemaState": "MatchmakingQueue[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'matchmakingQueue';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "payments",
+      "schemaState": "Payment[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'payments';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "payouts",
+      "schemaState": "Payout[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'payouts';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "conversations",
+      "schemaState": "ConversationParticipant[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'conversations';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "messages",
+      "schemaState": "Message[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'messages';"
+    },
+    {
+      "model": "Profile",
+      "table": "profiles",
+      "field": "detailedRankHistory",
+      "schemaState": "RankHistory[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'detailedRankHistory';"
+    },
+    {
+      "model": "Post",
+      "table": "posts",
+      "field": "comments",
+      "schemaState": "Comment[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'posts' AND column_name = 'comments';"
+    },
+    {
+      "model": "Post",
+      "table": "posts",
+      "field": "reactions",
+      "schemaState": "Reaction[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'posts' AND column_name = 'reactions';"
+    },
+    {
+      "model": "Post",
+      "table": "posts",
+      "field": "savedBy",
+      "schemaState": "SavedPost[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'posts' AND column_name = 'savedBy';"
+    },
+    {
+      "model": "Follow",
+      "table": "follows",
+      "field": "status",
+      "schemaState": "FollowStatus",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'follows' AND column_name = 'status';"
+    },
+    {
+      "model": "Conversation",
+      "table": "conversations",
+      "field": "participants",
+      "schemaState": "ConversationParticipant[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'conversations' AND column_name = 'participants';"
+    },
+    {
+      "model": "Conversation",
+      "table": "conversations",
+      "field": "messages",
+      "schemaState": "Message[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'conversations' AND column_name = 'messages';"
+    },
+    {
+      "model": "QuestCategory",
+      "table": "quest_categories",
+      "field": "quests",
+      "schemaState": "Quest[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'quest_categories' AND column_name = 'quests';"
+    },
+    {
+      "model": "Quest",
+      "table": "quests",
+      "field": "testCases",
+      "schemaState": "TestCase[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'quests' AND column_name = 'testCases';"
+    },
+    {
+      "model": "Quest",
+      "table": "quests",
+      "field": "submissions",
+      "schemaState": "Submission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'quests' AND column_name = 'submissions';"
+    },
+    {
+      "model": "Quest",
+      "table": "quests",
+      "field": "battles",
+      "schemaState": "Battle[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'quests' AND column_name = 'battles';"
+    },
+    {
+      "model": "Battle",
+      "table": "battles",
+      "field": "players",
+      "schemaState": "BattlePlayer[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'battles' AND column_name = 'players';"
+    },
+    {
+      "model": "Battle",
+      "table": "battles",
+      "field": "battleSubmissions",
+      "schemaState": "BattleSubmission[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'battles' AND column_name = 'battleSubmissions';"
+    },
+    {
+      "model": "Battle",
+      "table": "battles",
+      "field": "brackets",
+      "schemaState": "Bracket[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'battles' AND column_name = 'brackets';"
+    },
+    {
+      "model": "Rank",
+      "table": "ranks",
+      "field": "userRankHistory",
+      "schemaState": "UserRankHistory[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'ranks' AND column_name = 'userRankHistory';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "title",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'title';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "start_date",
+      "schemaState": "DateTime",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'start_date';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "end_date",
+      "schemaState": "DateTime",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'end_date';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "registrations",
+      "schemaState": "TournamentRegistration[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'registrations';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "participants",
+      "schemaState": "TournamentParticipant[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'participants';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "brackets",
+      "schemaState": "Bracket[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'brackets';"
+    },
+    {
+      "model": "Tournament",
+      "table": "tournaments",
+      "field": "results",
+      "schemaState": "TournamentResult[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournaments' AND column_name = 'results';"
+    },
+    {
+      "model": "TournamentRegistration",
+      "table": "tournament_registrations",
+      "field": "id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_registrations' AND column_name = 'id';"
+    },
+    {
+      "model": "TournamentRegistration",
+      "table": "tournament_registrations",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_registrations' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "TournamentRegistration",
+      "table": "tournament_registrations",
+      "field": "status",
+      "schemaState": "RegistrationStatus",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_registrations' AND column_name = 'status';"
+    },
+    {
+      "model": "TournamentRegistration",
+      "table": "tournament_registrations",
+      "field": "created_at",
+      "schemaState": "DateTime",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_registrations' AND column_name = 'created_at';"
+    },
+    {
+      "model": "TournamentParticipant",
+      "table": "tournament_participants",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_participants' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "TournamentParticipant",
+      "table": "tournament_participants",
+      "field": "seed",
+      "schemaState": "Int?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_participants' AND column_name = 'seed';"
+    },
+    {
+      "model": "TournamentParticipant",
+      "table": "tournament_participants",
+      "field": "rank",
+      "schemaState": "Int?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_participants' AND column_name = 'rank';"
+    },
+    {
+      "model": "TournamentResult",
+      "table": "tournament_results",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_results' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "TournamentResult",
+      "table": "tournament_results",
+      "field": "prize_won",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'tournament_results' AND column_name = 'prize_won';"
+    },
+    {
+      "model": "Bracket",
+      "table": "brackets",
+      "field": "match_number",
+      "schemaState": "Int",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'brackets' AND column_name = 'match_number';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "slug",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'slug';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "icon",
+      "schemaState": "String?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'icon';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "rarity",
+      "schemaState": "AchievementRarity",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'rarity';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "reputation_reward",
+      "schemaState": "Int",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'reputation_reward';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "hidden",
+      "schemaState": "Boolean",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'hidden';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "created_at",
+      "schemaState": "DateTime",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'created_at';"
+    },
+    {
+      "model": "Achievement",
+      "table": "achievements",
+      "field": "userAchievements",
+      "schemaState": "UserAchievement[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'achievements' AND column_name = 'userAchievements';"
+    },
+    {
+      "model": "UserAchievement",
+      "table": "user_achievements",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'user_achievements' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Title",
+      "table": "titles",
+      "field": "userTitles",
+      "schemaState": "UserTitle[]",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'titles' AND column_name = 'userTitles';"
+    },
+    {
+      "model": "UserTitle",
+      "table": "user_titles",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'user_titles' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Streak",
+      "table": "streaks",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'streaks' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Payment",
+      "table": "payments",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'payments' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Payout",
+      "table": "payouts",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'payouts' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Subscription",
+      "table": "subscriptions",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'subscriptions' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "Notification",
+      "table": "notifications",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'notifications' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "XpLog",
+      "table": "xp_logs",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'xp_logs' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "UserRankHistory",
+      "table": "user_rank_history",
+      "field": "profile_id",
+      "schemaState": "String",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'user_rank_history' AND column_name = 'profile_id';"
+    },
+    {
+      "model": "AdminAction",
+      "table": "admin_actions",
+      "field": "duration_hrs",
+      "schemaState": "Int?",
+      "proof": "SELECT column_name FROM information_schema.columns WHERE table_name = 'admin_actions' AND column_name = 'duration_hrs';"
+    }
+  ],
+  "extraColumns": [
+    {
+      "table": "users",
+      "column": "username",
+      "dbType": "character varying"
+    },
+    {
+      "table": "users",
+      "column": "avatar_url",
+      "dbType": "text"
+    },
+    {
+      "table": "users",
+      "column": "banner_url",
+      "dbType": "text"
+    },
+    {
+      "table": "users",
+      "column": "bio",
+      "dbType": "text"
+    },
+    {
+      "table": "users",
+      "column": "region",
+      "dbType": "character varying"
+    },
+    {
+      "table": "users",
+      "column": "major",
+      "dbType": "character varying"
+    },
+    {
+      "table": "users",
+      "column": "xp",
+      "dbType": "bigint"
+    },
+    {
+      "table": "users",
+      "column": "level",
+      "dbType": "integer"
+    },
+    {
+      "table": "users",
+      "column": "coins",
+      "dbType": "bigint"
+    },
+    {
+      "table": "users",
+      "column": "is_online",
+      "dbType": "boolean"
+    },
+    {
+      "table": "users",
+      "column": "is_verified",
+      "dbType": "boolean"
+    },
+    {
+      "table": "users",
+      "column": "is_banned",
+      "dbType": "boolean"
+    },
+    {
+      "table": "users",
+      "column": "provider_email",
+      "dbType": "character varying"
+    },
+    {
+      "table": "users",
+      "column": "profile_completed",
+      "dbType": "boolean"
+    },
+    {
+      "table": "profiles",
+      "column": "rank_id",
+      "dbType": "integer"
+    },
+    {
+      "table": "profiles",
+      "column": "quests_solved",
+      "dbType": "integer"
+    },
+    {
+      "table": "profiles",
+      "column": "battles_won",
+      "dbType": "integer"
+    },
+    {
+      "table": "tournaments",
+      "column": "name",
+      "dbType": "character varying"
+    },
+    {
+      "table": "tournaments",
+      "column": "type",
+      "dbType": "USER-DEFINED"
+    },
+    {
+      "table": "tournaments",
+      "column": "max_participants",
+      "dbType": "integer"
+    },
+    {
+      "table": "tournaments",
+      "column": "rules",
+      "dbType": "text"
+    },
+    {
+      "table": "tournaments",
+      "column": "starts_at",
+      "dbType": "timestamp with time zone"
+    },
+    {
+      "table": "tournaments",
+      "column": "ends_at",
+      "dbType": "timestamp with time zone"
+    },
+    {
+      "table": "tournaments",
+      "column": "created_at",
+      "dbType": "timestamp with time zone"
+    },
+    {
+      "table": "tournament_registrations",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "tournament_registrations",
+      "column": "registered_at",
+      "dbType": "timestamp with time zone"
+    },
+    {
+      "table": "tournament_participants",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "tournament_participants",
+      "column": "score",
+      "dbType": "integer"
+    },
+    {
+      "table": "tournament_participants",
+      "column": "eliminated",
+      "dbType": "boolean"
+    },
+    {
+      "table": "tournament_results",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "tournament_results",
+      "column": "prize",
+      "dbType": "numeric"
+    },
+    {
+      "table": "tournament_results",
+      "column": "xp_earned",
+      "dbType": "integer"
+    },
+    {
+      "table": "brackets",
+      "column": "match",
+      "dbType": "integer"
+    },
+    {
+      "table": "achievements",
+      "column": "icon_url",
+      "dbType": "text"
+    },
+    {
+      "table": "achievements",
+      "column": "condition",
+      "dbType": "jsonb"
+    },
+    {
+      "table": "achievements",
+      "column": "is_active",
+      "dbType": "boolean"
+    },
+    {
+      "table": "achievements",
+      "column": "sort_order",
+      "dbType": "integer"
+    },
+    {
+      "table": "user_achievements",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "user_titles",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "streaks",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "payments",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "payouts",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "subscriptions",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "notifications",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "xp_logs",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "user_rank_history",
+      "column": "user_id",
+      "dbType": "uuid"
+    },
+    {
+      "table": "reports",
+      "column": "targetType",
+      "dbType": "USER-DEFINED"
+    },
+    {
+      "table": "reports",
+      "column": "details",
+      "dbType": "text"
+    },
+    {
+      "table": "admin_actions",
+      "column": "duration_hours",
+      "dbType": "integer"
+    }
+  ],
+  "enumMismatches": [
+    {
+      "enum": "ProficiencyLevel",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'proficiencylevel';"
+    },
+    {
+      "enum": "PostType",
+      "problem": "Values missing in DB",
+      "missing": [
+        "PROJECT_SHOWCASE",
+        "DISCUSSION"
+      ],
+      "dbValues": [
+        "ACHIEVEMENT",
+        "BATTLE_RESULT",
+        "QUEST_COMPLETION",
+        "TEXT",
+        "TOURNAMENT_RESULT"
+      ]
+    },
+    {
+      "enum": "FollowStatus",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'followstatus';"
+    },
+    {
+      "enum": "TournamentStatus",
+      "problem": "Values missing in DB",
+      "missing": [
+        "REGISTRATION_OPEN",
+        "REGISTRATION_CLOSED",
+        "CANCELLED"
+      ],
+      "dbValues": [
+        "COMPLETED",
+        "IN_PROGRESS",
+        "REGISTRATION",
+        "UPCOMING"
+      ]
+    },
+    {
+      "enum": "RegistrationStatus",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'registrationstatus';"
+    },
+    {
+      "enum": "OrgType",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'orgtype';"
+    },
+    {
+      "enum": "OrgMemberRole",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'orgmemberrole';"
+    },
+    {
+      "enum": "TeamRole",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'teamrole';"
+    },
+    {
+      "enum": "InviteStatus",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'invitestatus';"
+    },
+    {
+      "enum": "VerificationType",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'verificationtype';"
+    },
+    {
+      "enum": "VerificationStatus",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'verificationstatus';"
+    },
+    {
+      "enum": "AchievementCategory",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'achievementcategory';"
+    },
+    {
+      "enum": "AchievementRarity",
+      "problem": "Missing in DB",
+      "proof": "SELECT typname FROM pg_type WHERE typname = 'achievementrarity';"
+    },
+    {
+      "enum": "ReportStatus",
+      "problem": "Values missing in DB",
+      "missing": [
+        "REJECTED"
+      ],
+      "dbValues": [
+        "DISMISSED",
+        "OPEN",
+        "RESOLVED",
+        "REVIEWED"
+      ]
+    }
+  ],
+  "fkMismatches": []
+}

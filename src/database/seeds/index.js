@@ -3,10 +3,11 @@ import { getPrisma } from "../../config/database.js";
 const prisma = getPrisma();
 
 const roles = [
-  { id: 1, name: "user", description: "Regular user" },
-  { id: 2, name: "moderator", description: "Content moderator" },
-  { id: 3, name: "admin", description: "Platform administrator" },
-  { id: 4, name: "super_admin", description: "Super administrator" },
+  { id: 1, name: "USER", description: "Regular user" },
+  { id: 2, name: "PREMIUM", description: "Premium subscriber" },
+  { id: 3, name: "MODERATOR", description: "Content moderator" },
+  { id: 4, name: "ADMIN", description: "Platform administrator" },
+  { id: 5, name: "SUPER_ADMIN", description: "Super administrator" },
 ];
 
 const ranks = [
@@ -23,14 +24,14 @@ const ranks = [
 ];
 
 const achievements = [
-  { name: "First Blood", description: "Solve your first quest", xpReward: 100, category: "quest", condition: { type: "quests_solved", count: 1 } },
-  { name: "Speed Demon", description: "Solve a quest in under 1 second", xpReward: 200, category: "quest", condition: { type: "quest_speed", under_ms: 1000 } },
-  { name: "Battle Novice", description: "Win your first battle", xpReward: 150, category: "battle", condition: { type: "battles_won", count: 1 } },
-  { name: "Battle Master", description: "Win 10 battles", xpReward: 500, category: "battle", condition: { type: "battles_won", count: 10 } },
-  { name: "Social Butterfly", description: "Add 5 friends", xpReward: 100, category: "social", condition: { type: "friends_count", count: 5 } },
-  { name: "Streak Master", description: "Maintain a 7-day streak", xpReward: 300, category: "streak", condition: { type: "streak_days", count: 7 } },
-  { name: "Tournament Champion", description: "Win a tournament", xpReward: 1000, category: "tournament", condition: { type: "tournaments_won", count: 1 } },
-  { name: "Code Warrior", description: "Solve 50 quests", xpReward: 2000, category: "quest", condition: { type: "quests_solved", count: 50 } },
+  { slug: "first-blood", name: "First Blood", description: "Solve your first quest", xpReward: 100, category: "QUESTS", rarity: "COMMON", hidden: false },
+  { slug: "speed-demon", name: "Speed Demon", description: "Solve a quest in under 1 second", xpReward: 200, category: "QUESTS", rarity: "RARE", hidden: false },
+  { slug: "battle-novice", name: "Battle Novice", description: "Win your first battle", xpReward: 150, category: "BATTLES", rarity: "COMMON", hidden: false },
+  { slug: "battle-master", name: "Battle Master", description: "Win 10 battles", xpReward: 500, category: "BATTLES", rarity: "RARE", hidden: false },
+  { slug: "social-butterfly", name: "Social Butterfly", description: "Add 5 friends", xpReward: 100, category: "SOCIAL", rarity: "COMMON", hidden: false },
+  { slug: "streak-master", name: "Streak Master", description: "Maintain a 7-day streak", xpReward: 300, category: "COMMUNITY", rarity: "EPIC", hidden: false },
+  { slug: "tournament-champion", name: "Tournament Champion", description: "Win a tournament", xpReward: 1000, category: "TOURNAMENTS", rarity: "LEGENDARY", hidden: false },
+  { slug: "code-warrior", name: "Code Warrior", description: "Solve 50 quests", xpReward: 2000, category: "QUESTS", rarity: "EPIC", hidden: false },
 ];
 
 const titles = [
@@ -59,7 +60,7 @@ async function seed() {
   for (const role of roles) {
     await prisma.role.upsert({
       where: { id: role.id },
-      update: {},
+      update: { name: role.name, description: role.description },
       create: role,
     });
   }
@@ -76,8 +77,8 @@ async function seed() {
 
   for (const achievement of achievements) {
     await prisma.achievement.upsert({
-      where: { name: achievement.name },
-      update: { description: achievement.description, xpReward: achievement.xpReward, category: achievement.category, condition: achievement.condition },
+      where: { slug: achievement.slug },
+      update: { name: achievement.name, description: achievement.description, xpReward: achievement.xpReward, category: achievement.category, rarity: achievement.rarity, hidden: achievement.hidden },
       create: achievement,
     });
   }

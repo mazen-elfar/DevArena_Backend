@@ -17,6 +17,7 @@ const submitSchema = z.object({
 router.get("/categories", (req, res, next) => controller.listCategories(req, res, next));
 router.get("/categories/:slug", (req, res, next) => controller.getCategoryBySlug(req, res, next));
 router.get("/daily", (req, res, next) => controller.getDailyQuest(req, res, next));
+router.get("/submissions/my", authenticate, (req, res, next) => controller.getMySubmissions(req, res, next));
 router.get("/", (req, res, next) => controller.listQuests(req, res, next));
 router.get("/:id", (req, res, next) => controller.getQuest(req, res, next));
 router.get("/:id/leaderboard", (req, res, next) => controller.getQuestLeaderboard(req, res, next));
@@ -29,6 +30,5 @@ router.post(
   validate(submitSchema),
   (req, res, next) => controller.submitSolution(req, res, next),
 );
-router.get("/submissions/my", authenticate, (req, res, next) => controller.getMySubmissions(req, res, next));
 
 export default router;

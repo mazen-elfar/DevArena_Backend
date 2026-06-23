@@ -1,11 +1,11 @@
 import { getPrisma } from "../../config/database.js";
 import { Errors } from "../../shared/errors/error-definitions.js";
 
-const userSelect = {
+const profileSelect = {
   id: true,
   username: true,
-  email: true,
-  avatarUrl: true,
+  displayName: true,
+  avatar: true,
   bio: true,
   level: true,
   isOnline: true,
@@ -19,8 +19,8 @@ export class FriendsService {
 
     const prisma = getPrisma();
 
-    const addressee = await prisma.user.findUnique({ where: { id: addresseeId } });
-    if (!addressee || addressee.deletedAt) {
+    const addressee = await prisma.profile.findUnique({ where: { id: addresseeId } });
+    if (!addressee) {
       throw Errors.NotFound("User");
     }
 
@@ -44,12 +44,12 @@ export class FriendsService {
 
     const friendship = await prisma.friendship.create({
       data: { requesterId, addresseeId },
-      include: { requester: { select: userSelect }, addressee: { select: userSelect } },
+      include: { requester: { select: profileSelect }, addressee: { select: profileSelect } },
     });
 
     await prisma.notification.create({
       data: {
-        userId: addresseeId,
+        profileId: addresseeId,
         type: "FRIEND_REQUEST",
         title: "Friend Request",
         message: "sent you a friend request",
@@ -73,12 +73,12 @@ export class FriendsService {
     const updated = await prisma.friendship.update({
       where: { id: friendship.id },
       data: { status: "ACCEPTED" },
-      include: { requester: { select: userSelect }, addressee: { select: userSelect } },
+      include: { requester: { select: profileSelect }, addressee: { select: profileSelect } },
     });
 
     await prisma.notification.create({
       data: {
-        userId: requesterId,
+        profileId: requesterId,
         type: "FRIEND_ACCEPTED",
         title: "Friend Request Accepted",
         message: "accepted your friend request",
@@ -102,7 +102,7 @@ export class FriendsService {
     const updated = await prisma.friendship.update({
       where: { id: friendship.id },
       data: { status: "REJECTED" },
-      include: { requester: { select: userSelect }, addressee: { select: userSelect } },
+      include: { requester: { select: profileSelect }, addressee: { select: profileSelect } },
     });
 
     return updated;
@@ -140,8 +140,8 @@ export class FriendsService {
       prisma.friendship.findMany({
         where,
         include: {
-          requester: { select: userSelect },
-          addressee: { select: userSelect },
+          requester: { select: profileSelect },
+          addressee: { select: profileSelect },
         },
         skip,
         take: limit,
@@ -162,7 +162,7 @@ export class FriendsService {
 
     const requests = await prisma.friendship.findMany({
       where: { addresseeId: userId, status: "PENDING" },
-      include: { requester: { select: userSelect } },
+      include: { requester: { select: profileSelect } },
       orderBy: { createdAt: "desc" },
     });
 
@@ -176,8 +176,8 @@ export class FriendsService {
 
     const prisma = getPrisma();
 
-    const user = await prisma.user.findUnique({ where: { id: followingId } });
-    if (!user || user.deletedAt) {
+    const user = await prisma.profile.findUnique({ where: { id: followingId } });
+    if (!user) {
       throw Errors.NotFound("User");
     }
 
@@ -190,7 +190,7 @@ export class FriendsService {
 
     const follow = await prisma.follow.create({
       data: { followerId, followingId },
-      include: { follower: { select: userSelect }, following: { select: userSelect } },
+      include: { follower: { select: profileSelect }, following: { select: profileSelect } },
     });
 
     return follow;
@@ -220,7 +220,7 @@ export class FriendsService {
     const [follows, total] = await Promise.all([
       prisma.follow.findMany({
         where,
-        include: { follower: { select: userSelect } },
+        include: { follower: { select: profileSelect } },
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },
@@ -242,7 +242,7 @@ export class FriendsService {
     const [follows, total] = await Promise.all([
       prisma.follow.findMany({
         where,
-        include: { following: { select: userSelect } },
+        include: { following: { select: profileSelect } },
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },

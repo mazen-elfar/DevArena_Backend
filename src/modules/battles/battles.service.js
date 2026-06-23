@@ -5,6 +5,14 @@ import { MatchmakingService } from "./matchmaking.service.js";
 
 const matchmakingService = new MatchmakingService();
 
+const profileSelect = {
+  select: {
+    username: true,
+    displayName: true,
+    avatar: true,
+  },
+};
+
 export class BattlesService {
   async createBattle(userId, { mode, questId, opponentId, aiDifficulty }) {
     const prisma = getPrisma();
@@ -21,8 +29,8 @@ export class BattlesService {
 
     if (mode === "FRIEND") {
       if (!opponentId) throw Errors.BadRequest("opponentId required for FRIEND mode");
-      const opponent = await prisma.user.findUnique({ where: { id: opponentId } });
-      if (!opponent || opponent.deletedAt) throw Errors.NotFound("Opponent");
+      const opponent = await prisma.profile.findUnique({ where: { id: opponentId } });
+      if (!opponent) throw Errors.NotFound("Opponent profile");
     }
 
     const battle = await prisma.battle.create({ data: battleData });
@@ -73,7 +81,13 @@ export class BattlesService {
 
     return prisma.battle.findUnique({
       where: { id: battleId },
-      include: { players: { include: { user: { select: { id: true, username: true, avatarUrl: true } } } } },
+      include: {
+        players: {
+          include: {
+            user: profileSelect,
+          },
+        },
+      },
     });
   }
 
@@ -110,7 +124,9 @@ export class BattlesService {
       include: {
         quest: { select: { id: true, title: true, difficulty: true } },
         players: {
-          include: { user: { select: { id: true, username: true, avatarUrl: true } } },
+          include: {
+            user: profileSelect,
+          },
         },
         battleSubmissions: {
           include: { user: { select: { id: true, username: true } } },
@@ -135,7 +151,9 @@ export class BattlesService {
         include: {
           quest: { select: { id: true, title: true, difficulty: true } },
           players: {
-            include: { user: { select: { id: true, username: true, avatarUrl: true } } },
+            include: {
+              user: profileSelect,
+            },
           },
         },
       }),
@@ -153,8 +171,14 @@ export class BattlesService {
         orderBy: { rating: "desc" },
         skip: (page - 1) * limit,
         take: limit,
-        include: {
-          user: { select: { id: true, username: true, avatarUrl: true } },
+        select: {
+          id: true,
+          userId: true,
+          username: true,
+          displayName: true,
+          avatar: true,
+          rating: true,
+          level: true,
         },
       }),
       prisma.profile.count(),

@@ -17,31 +17,34 @@ export class ProfileService {
       where: { id: userId },
       select: {
         id: true,
-        username: true,
         email: true,
-        providerEmail: true,
         emailVerified: true,
-        profileCompleted: true,
-        avatarUrl: true,
-        bannerUrl: true,
-        bio: true,
-        region: true,
-        major: true,
-        xp: true,
-        level: true,
-        coins: true,
-        isOnline: true,
-        isVerified: true,
-        isBanned: true,
         createdAt: true,
         updatedAt: true,
         profile: {
           select: {
+            username: true,
             displayName: true,
+            avatar: true,
+            banner: true,
+            bio: true,
+            university: true,
+            major: true,
+            graduationYear: true,
+            country: true,
+            region: true,
+            githubUsername: true,
+            githubUrl: true,
+            linkedinUrl: true,
+            portfolioUrl: true,
+            websiteUrl: true,
+            level: true,
+            totalXP: true,
             rating: true,
-            questsSolved: true,
-            battlesWon: true,
-            rank: { select: { name: true, color: true, iconUrl: true } },
+            reputation: true,
+            profileCompleted: true,
+            isVerified: true,
+            isOnline: true,
           },
         },
         providers: {
@@ -56,6 +59,14 @@ export class ProfileService {
     });
 
     if (!user) throw Errors.NotFound("User not found");
+    
+    // Flatten for consistent API response if needed, 
+    // but here we keep the structure and just fix BigInt
+    if (user.profile) {
+      if (typeof user.profile.totalXP === "bigint") user.profile.totalXP = Number(user.profile.totalXP);
+      if (typeof user.profile.currentXP === "bigint") user.profile.currentXP = Number(user.profile.currentXP);
+    }
+    
     return user;
   }
 
@@ -70,14 +81,14 @@ export class ProfileService {
 
     // Validate username uniqueness if changing it
     if (username) {
-      const conflict = await prisma.user.findFirst({
-        where: { username, id: { not: userId } },
+      const conflict = await prisma.profile.findFirst({
+        where: { username, userId: { not: userId } },
       });
       if (conflict) throw Errors.Conflict("Username already taken");
     }
 
-    const updated = await prisma.user.update({
-      where: { id: userId },
+    const updatedProfile = await prisma.profile.update({
+      where: { userId: userId },
       data: {
         ...(username ? { username } : {}),
         ...(major !== undefined ? { major } : {}),
@@ -88,15 +99,14 @@ export class ProfileService {
       select: {
         id: true,
         username: true,
-        email: true,
         major: true,
         region: true,
         bio: true,
         profileCompleted: true,
-        avatarUrl: true,
+        avatar: true,
       },
     });
 
-    return updated;
+    return updatedProfile;
   }
 }

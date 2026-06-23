@@ -1,12 +1,14 @@
 import { getPrisma } from "../../config/database.js";
 import { Errors } from "../../shared/errors/error-definitions.js";
 
+const profileInclude = { select: { id: true, username: true, avatar: true } };
+
 export class CommunityService {
   async createPost(authorId, { type, title, content }) {
     const prisma = getPrisma();
     return prisma.post.create({
       data: { authorId, type, title, content },
-      include: { author: { select: { id: true, username: true, avatarUrl: true } } },
+      include: { author: profileInclude },
     });
   }
 
@@ -15,7 +17,7 @@ export class CommunityService {
     const post = await prisma.post.findUnique({
       where: { id: postId },
       include: {
-        author: { select: { id: true, username: true, avatarUrl: true } },
+        author: profileInclude,
         _count: { select: { reactions: true, comments: true, savedBy: true } },
       },
     });
@@ -36,7 +38,7 @@ export class CommunityService {
         take: limit,
         orderBy: { createdAt: "desc" },
         include: {
-          author: { select: { id: true, username: true, avatarUrl: true } },
+          author: profileInclude,
           _count: { select: { reactions: true, comments: true, savedBy: true } },
         },
       }),
@@ -55,7 +57,7 @@ export class CommunityService {
     return prisma.post.update({
       where: { id: postId },
       data,
-      include: { author: { select: { id: true, username: true, avatarUrl: true } } },
+      include: { author: profileInclude },
     });
   }
 
@@ -110,7 +112,7 @@ export class CommunityService {
 
     const comment = await prisma.comment.create({
       data: { postId, authorId, content, parentId },
-      include: { author: { select: { id: true, username: true, avatarUrl: true } } },
+      include: { author: profileInclude },
     });
 
     await prisma.post.update({ where: { id: postId }, data: { commentCount: { increment: 1 } } });
@@ -130,10 +132,10 @@ export class CommunityService {
         take: limit,
         orderBy: { createdAt: "desc" },
         include: {
-          author: { select: { id: true, username: true, avatarUrl: true } },
+          author: profileInclude,
           replies: {
             orderBy: { createdAt: "asc" },
-            include: { author: { select: { id: true, username: true, avatarUrl: true } } },
+            include: { author: profileInclude },
           },
         },
       }),
@@ -170,7 +172,7 @@ export class CommunityService {
     const posts = await prisma.post.findMany({
       where: { deletedAt: null, isPublished: true },
       include: {
-        author: { select: { id: true, username: true, avatarUrl: true } },
+        author: profileInclude,
         _count: { select: { reactions: true, comments: true, savedBy: true } },
       },
     });

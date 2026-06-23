@@ -1,0 +1,3149 @@
+{
+  "tables": [
+    "_prisma_migrations",
+    "achievements",
+    "activity_logs",
+    "admin_actions",
+    "audit_logs",
+    "battle_players",
+    "battle_submissions",
+    "battles",
+    "brackets",
+    "coins_transactions",
+    "comments",
+    "conversation_participants",
+    "conversations",
+    "follows",
+    "friendships",
+    "matchmaking_queue",
+    "messages",
+    "notifications",
+    "payments",
+    "payouts",
+    "posts",
+    "profiles",
+    "quest_categories",
+    "quests",
+    "ranks",
+    "reactions",
+    "reports",
+    "roles",
+    "saved_posts",
+    "streaks",
+    "submissions",
+    "subscriptions",
+    "test_cases",
+    "titles",
+    "tournament_participants",
+    "tournament_registrations",
+    "tournament_results",
+    "tournaments",
+    "user_achievements",
+    "user_providers",
+    "user_rank_history",
+    "user_roles",
+    "user_titles",
+    "users",
+    "xp_logs"
+  ],
+  "columns": [
+    {
+      "table_name": "audit_logs",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quest_categories",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "is_active",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "users",
+      "column_name": "deleted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "quest_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "avatar_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "battle_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_titles",
+      "column_name": "title_id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "comments",
+      "column_name": "content",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "reaction_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "reason",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "icon_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "method",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "is_online",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "source_code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "examples",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "is_banned",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "comments",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'ACTIVE'::\"SubscriptionStatus\""
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "duration_hours",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_registrations",
+      "column_name": "tournament_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "xp_earned",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "messages",
+      "column_name": "conversation_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "user_agent",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "message",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "entity_type",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "checksum",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "source_code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "eliminated",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "battles",
+      "column_name": "ai_difficulty",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_achievements",
+      "column_name": "achievement_id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "reference_type",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "conversations",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "tournament_registrations",
+      "column_name": "registered_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "battles",
+      "column_name": "started_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "runtime_ms",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "comments",
+      "column_name": "author_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "currency",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": "'USD'::character varying"
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "follows",
+      "column_name": "following_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "joined_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "joined_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "submitted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "quests",
+      "column_name": "xp_reward",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "max_participants",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "new_values",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "new_rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "action",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "save_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "access_token",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "tournament_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "reference_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "category",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "comments",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "posts",
+      "column_name": "is_published",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "starts_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "quest_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "icon_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "order",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "source",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "comment_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1000"
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "target_user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_roles",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "ip_address",
+      "data_type": "inet",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "entity_type",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "ends_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "min_rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "nextval('achievements_id_seq'::regclass)"
+    },
+    {
+      "table_name": "posts",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'TEXT'::\"PostType\""
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "battles",
+      "column_name": "ended_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "balance_after",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "player1_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "test_results",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "time_limit_sec",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "300"
+    },
+    {
+      "table_name": "saved_posts",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "is_muted",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "longest_streak",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "action",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "reference_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "quest_categories",
+      "column_name": "sort_order",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "users",
+      "column_name": "username",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "resolved_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "nextval('ranks_id_seq'::regclass)"
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "requester_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"SubmissionStatus\""
+    },
+    {
+      "table_name": "quests",
+      "column_name": "constraints",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "ip_address",
+      "data_type": "inet",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "is_hidden",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "amount",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'WAITING'::\"BattleStatus\""
+    },
+    {
+      "table_name": "users",
+      "column_name": "coins",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "users",
+      "column_name": "xp",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "reporter_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "saved_posts",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "joined_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "users",
+      "column_name": "profile_completed",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "old_values",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "coins_reward",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "position",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "users",
+      "column_name": "provider_email",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "submitted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "titles",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "sort_order",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "amount",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "is_read",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'LIKE'::\"ReactionType\""
+    },
+    {
+      "table_name": "users",
+      "column_name": "level",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "user_roles",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "comments",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "condition",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "action",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "max_rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "logs",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "tournament_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "provider",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "last_active_date",
+      "data_type": "date",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "weight",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "saved_posts",
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "language",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "titles",
+      "column_name": "rarity",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'COMMON'::\"TitleRarity\""
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "battle_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "transaction_ref",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "price",
+      "data_type": "numeric",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "rules",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "deleted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "score",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "users",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "rank_id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "language",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "author_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "title",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "entity_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "prize_pool",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"FriendshipStatus\""
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "password_hash",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "posts",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "admin_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_roles",
+      "column_name": "role_id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1000"
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"PayoutStatus\""
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "tournament_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "last_login_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "email_verified",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "payments",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "rolled_back_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "target_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "titles",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "nextval('titles_id_seq'::regclass)"
+    },
+    {
+      "table_name": "battles",
+      "column_name": "mode",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "nextval('roles_id_seq'::regclass)"
+    },
+    {
+      "table_name": "comments",
+      "column_name": "parent_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "applied_steps_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "quests",
+      "column_name": "memory_limit_mb",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "256"
+    },
+    {
+      "table_name": "quests",
+      "column_name": "test_template",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "old_rating",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "quest_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "bio",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "plan",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "quests_solved",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "titles",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "roles",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'OPEN'::\"ReportStatus\""
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "verified_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "category_id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "major",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "provider_uid",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "is_verified",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "targetType",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "quests",
+      "column_name": "time_limit_ms",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "5000"
+    },
+    {
+      "table_name": "payments",
+      "column_name": "amount",
+      "data_type": "numeric",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "test_results",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "amount",
+      "data_type": "numeric",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'QUEUED'::\"MatchmakingStatus\""
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "is_read",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'UPCOMING'::\"TournamentStatus\""
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "player2_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "runtime_ms",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "email",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "addressee_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "last_read_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "sender_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "memory_kb",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "reason",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "finished_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"PaymentStatus\""
+    },
+    {
+      "table_name": "follows",
+      "column_name": "follower_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "is_active",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "sort_order",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "user_achievements",
+      "column_name": "unlocked_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "entity_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "entry_fee",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "auto_renew",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "match",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "conversations",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "difficulty",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_titles",
+      "column_name": "equipped",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "changed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "reviewed_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "region",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "quests",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quest_categories",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "refresh_token",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "type",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "conversation_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "rank_id",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "description",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "input_data",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "achievements",
+      "column_name": "xp_reward",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "started_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "round",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "linked_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "user_titles",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "users",
+      "column_name": "banner_url",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "battle_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "reports",
+      "column_name": "details",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "ranks",
+      "column_name": "color",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "battles_won",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "posts",
+      "column_name": "content",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "migration_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "admin_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "quest_categories",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "nextval('quest_categories_id_seq'::regclass)"
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "content",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "account_ref",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "starts_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "_prisma_migrations",
+      "column_name": "id",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"BracketStatus\""
+    },
+    {
+      "table_name": "tournaments",
+      "column_name": "description",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "follows",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "expected_output",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "display_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "user_achievements",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "messages",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "current_streak",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "0"
+    },
+    {
+      "table_name": "quest_categories",
+      "column_name": "slug",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "reason",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "payments",
+      "column_name": "gateway",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "winner_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "conversations",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_registrations",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "link",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "prize",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "comments",
+      "column_name": "post_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "battles",
+      "column_name": "winner_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "is_winner",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "status",
+      "data_type": "USER-DEFINED",
+      "is_nullable": "NO",
+      "column_default": "'PENDING'::\"SubmissionStatus\""
+    }
+  ],
+  "enums": [
+    {
+      "enum_name": "AuthProvider",
+      "enum_value": "LOCAL"
+    },
+    {
+      "enum_name": "AuthProvider",
+      "enum_value": "GOOGLE"
+    },
+    {
+      "enum_name": "AuthProvider",
+      "enum_value": "GITHUB"
+    },
+    {
+      "enum_name": "PostType",
+      "enum_value": "TEXT"
+    },
+    {
+      "enum_name": "PostType",
+      "enum_value": "ACHIEVEMENT"
+    },
+    {
+      "enum_name": "PostType",
+      "enum_value": "BATTLE_RESULT"
+    },
+    {
+      "enum_name": "PostType",
+      "enum_value": "QUEST_COMPLETION"
+    },
+    {
+      "enum_name": "PostType",
+      "enum_value": "TOURNAMENT_RESULT"
+    },
+    {
+      "enum_name": "ReactionType",
+      "enum_value": "LIKE"
+    },
+    {
+      "enum_name": "ReactionType",
+      "enum_value": "LOVE"
+    },
+    {
+      "enum_name": "ReactionType",
+      "enum_value": "FIRE"
+    },
+    {
+      "enum_name": "ReactionType",
+      "enum_value": "MIND_BLOWN"
+    },
+    {
+      "enum_name": "ReactionType",
+      "enum_value": "ROCKET"
+    },
+    {
+      "enum_name": "FriendshipStatus",
+      "enum_value": "PENDING"
+    },
+    {
+      "enum_name": "FriendshipStatus",
+      "enum_value": "ACCEPTED"
+    },
+    {
+      "enum_name": "FriendshipStatus",
+      "enum_value": "REJECTED"
+    },
+    {
+      "enum_name": "QuestDifficulty",
+      "enum_value": "EASY"
+    },
+    {
+      "enum_name": "QuestDifficulty",
+      "enum_value": "MEDIUM"
+    },
+    {
+      "enum_name": "QuestDifficulty",
+      "enum_value": "HARD"
+    },
+    {
+      "enum_name": "QuestDifficulty",
+      "enum_value": "LEGENDARY"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "JAVASCRIPT"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "TYPESCRIPT"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "PYTHON"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "JAVA"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "CPP"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "CSHARP"
+    },
+    {
+      "enum_name": "ProgrammingLanguage",
+      "enum_value": "GO"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "PENDING"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "ACCEPTED"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "WRONG_ANSWER"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "RUNTIME_ERROR"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "TIME_LIMIT_EXCEEDED"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "COMPILATION_ERROR"
+    },
+    {
+      "enum_name": "SubmissionStatus",
+      "enum_value": "MEMORY_LIMIT_EXCEEDED"
+    },
+    {
+      "enum_name": "BattleMode",
+      "enum_value": "RANKED"
+    },
+    {
+      "enum_name": "BattleMode",
+      "enum_value": "CLASSIC"
+    },
+    {
+      "enum_name": "BattleMode",
+      "enum_value": "FRIEND"
+    },
+    {
+      "enum_name": "BattleMode",
+      "enum_value": "AI"
+    },
+    {
+      "enum_name": "BattleStatus",
+      "enum_value": "WAITING"
+    },
+    {
+      "enum_name": "BattleStatus",
+      "enum_value": "IN_PROGRESS"
+    },
+    {
+      "enum_name": "BattleStatus",
+      "enum_value": "COMPLETED"
+    },
+    {
+      "enum_name": "BattleStatus",
+      "enum_value": "CANCELLED"
+    },
+    {
+      "enum_name": "AiDifficulty",
+      "enum_value": "EASY"
+    },
+    {
+      "enum_name": "AiDifficulty",
+      "enum_value": "MEDIUM"
+    },
+    {
+      "enum_name": "AiDifficulty",
+      "enum_value": "HARD"
+    },
+    {
+      "enum_name": "MatchmakingStatus",
+      "enum_value": "QUEUED"
+    },
+    {
+      "enum_name": "MatchmakingStatus",
+      "enum_value": "MATCHED"
+    },
+    {
+      "enum_name": "MatchmakingStatus",
+      "enum_value": "EXPIRED"
+    },
+    {
+      "enum_name": "TournamentType",
+      "enum_value": "WEEKLY"
+    },
+    {
+      "enum_name": "TournamentType",
+      "enum_value": "SEASONAL"
+    },
+    {
+      "enum_name": "TournamentStatus",
+      "enum_value": "UPCOMING"
+    },
+    {
+      "enum_name": "TournamentStatus",
+      "enum_value": "REGISTRATION"
+    },
+    {
+      "enum_name": "TournamentStatus",
+      "enum_value": "IN_PROGRESS"
+    },
+    {
+      "enum_name": "TournamentStatus",
+      "enum_value": "COMPLETED"
+    },
+    {
+      "enum_name": "BracketStatus",
+      "enum_value": "PENDING"
+    },
+    {
+      "enum_name": "BracketStatus",
+      "enum_value": "IN_PROGRESS"
+    },
+    {
+      "enum_name": "BracketStatus",
+      "enum_value": "COMPLETED"
+    },
+    {
+      "enum_name": "XpSource",
+      "enum_value": "QUEST"
+    },
+    {
+      "enum_name": "XpSource",
+      "enum_value": "BATTLE"
+    },
+    {
+      "enum_name": "XpSource",
+      "enum_value": "TOURNAMENT"
+    },
+    {
+      "enum_name": "XpSource",
+      "enum_value": "DAILY"
+    },
+    {
+      "enum_name": "XpSource",
+      "enum_value": "ACHIEVEMENT"
+    },
+    {
+      "enum_name": "TitleRarity",
+      "enum_value": "COMMON"
+    },
+    {
+      "enum_name": "TitleRarity",
+      "enum_value": "RARE"
+    },
+    {
+      "enum_name": "TitleRarity",
+      "enum_value": "EPIC"
+    },
+    {
+      "enum_name": "TitleRarity",
+      "enum_value": "LEGENDARY"
+    },
+    {
+      "enum_name": "StreakType",
+      "enum_value": "DAILY_LOGIN"
+    },
+    {
+      "enum_name": "StreakType",
+      "enum_value": "DAILY_QUEST"
+    },
+    {
+      "enum_name": "StreakType",
+      "enum_value": "DAILY_BATTLE"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "FRIEND_REQUEST"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "FRIEND_ACCEPTED"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "BATTLE_INVITE"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "BATTLE_RESULT"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "QUEST_COMPLETED"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "NEW_ACHIEVEMENT"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "TOURNAMENT_REMINDER"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "RANK_PROMOTION"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "NEW_MESSAGE"
+    },
+    {
+      "enum_name": "NotificationType",
+      "enum_value": "ADMIN_ANNOUNCEMENT"
+    },
+    {
+      "enum_name": "PaymentType",
+      "enum_value": "TOURNAMENT_ENTRY"
+    },
+    {
+      "enum_name": "PaymentType",
+      "enum_value": "SUBSCRIPTION"
+    },
+    {
+      "enum_name": "PaymentType",
+      "enum_value": "STORE_PURCHASE"
+    },
+    {
+      "enum_name": "PaymentType",
+      "enum_value": "PRIZE_PAYOUT"
+    },
+    {
+      "enum_name": "PaymentStatus",
+      "enum_value": "PENDING"
+    },
+    {
+      "enum_name": "PaymentStatus",
+      "enum_value": "PROCESSING"
+    },
+    {
+      "enum_name": "PaymentStatus",
+      "enum_value": "COMPLETED"
+    },
+    {
+      "enum_name": "PaymentStatus",
+      "enum_value": "FAILED"
+    },
+    {
+      "enum_name": "PaymentStatus",
+      "enum_value": "REFUNDED"
+    },
+    {
+      "enum_name": "PayoutStatus",
+      "enum_value": "PENDING"
+    },
+    {
+      "enum_name": "PayoutStatus",
+      "enum_value": "PROCESSING"
+    },
+    {
+      "enum_name": "PayoutStatus",
+      "enum_value": "COMPLETED"
+    },
+    {
+      "enum_name": "PayoutStatus",
+      "enum_value": "FAILED"
+    },
+    {
+      "enum_name": "PayoutMethod",
+      "enum_value": "BANK"
+    },
+    {
+      "enum_name": "PayoutMethod",
+      "enum_value": "PAYPAL"
+    },
+    {
+      "enum_name": "PayoutMethod",
+      "enum_value": "CRYPTO"
+    },
+    {
+      "enum_name": "SubscriptionPlan",
+      "enum_value": "MONTHLY"
+    },
+    {
+      "enum_name": "SubscriptionPlan",
+      "enum_value": "YEARLY"
+    },
+    {
+      "enum_name": "SubscriptionStatus",
+      "enum_value": "ACTIVE"
+    },
+    {
+      "enum_name": "SubscriptionStatus",
+      "enum_value": "CANCELLED"
+    },
+    {
+      "enum_name": "SubscriptionStatus",
+      "enum_value": "EXPIRED"
+    },
+    {
+      "enum_name": "ReportTarget",
+      "enum_value": "POST"
+    },
+    {
+      "enum_name": "ReportTarget",
+      "enum_value": "COMMENT"
+    },
+    {
+      "enum_name": "ReportTarget",
+      "enum_value": "USER"
+    },
+    {
+      "enum_name": "ReportTarget",
+      "enum_value": "MESSAGE"
+    },
+    {
+      "enum_name": "ReportStatus",
+      "enum_value": "OPEN"
+    },
+    {
+      "enum_name": "ReportStatus",
+      "enum_value": "REVIEWED"
+    },
+    {
+      "enum_name": "ReportStatus",
+      "enum_value": "RESOLVED"
+    },
+    {
+      "enum_name": "ReportStatus",
+      "enum_value": "DISMISSED"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "SUSPEND"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "BAN"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "MUTE"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "WARN"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "DEMOTE"
+    },
+    {
+      "enum_name": "AdminActionType",
+      "enum_value": "PROMOTE"
+    }
+  ],
+  "fks": [
+    {
+      "table_name": "user_roles",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_roles",
+      "column_name": "role_id",
+      "foreign_table_name": "roles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_providers",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "profiles",
+      "column_name": "rank_id",
+      "foreign_table_name": "ranks",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "posts",
+      "column_name": "author_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "comments",
+      "column_name": "post_id",
+      "foreign_table_name": "posts",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "comments",
+      "column_name": "author_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "comments",
+      "column_name": "parent_id",
+      "foreign_table_name": "comments",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "reactions",
+      "column_name": "post_id",
+      "foreign_table_name": "posts",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "saved_posts",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "saved_posts",
+      "column_name": "post_id",
+      "foreign_table_name": "posts",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "follows",
+      "column_name": "follower_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "follows",
+      "column_name": "following_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "requester_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "friendships",
+      "column_name": "addressee_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "conversation_id",
+      "foreign_table_name": "conversations",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "conversation_participants",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "messages",
+      "column_name": "conversation_id",
+      "foreign_table_name": "conversations",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "messages",
+      "column_name": "sender_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "quests",
+      "column_name": "category_id",
+      "foreign_table_name": "quest_categories",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "test_cases",
+      "column_name": "quest_id",
+      "foreign_table_name": "quests",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "submissions",
+      "column_name": "quest_id",
+      "foreign_table_name": "quests",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "battles",
+      "column_name": "quest_id",
+      "foreign_table_name": "quests",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "battle_id",
+      "foreign_table_name": "battles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "battle_players",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "battle_id",
+      "foreign_table_name": "battles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "battle_submissions",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "matchmaking_queue",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_rank_history",
+      "column_name": "rank_id",
+      "foreign_table_name": "ranks",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_registrations",
+      "column_name": "tournament_id",
+      "foreign_table_name": "tournaments",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_registrations",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "tournament_id",
+      "foreign_table_name": "tournaments",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_participants",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "tournament_id",
+      "foreign_table_name": "tournaments",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "tournament_results",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "brackets",
+      "column_name": "tournament_id",
+      "foreign_table_name": "tournaments",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "xp_logs",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_achievements",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_achievements",
+      "column_name": "achievement_id",
+      "foreign_table_name": "achievements",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_titles",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "user_titles",
+      "column_name": "title_id",
+      "foreign_table_name": "titles",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "streaks",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "coins_transactions",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "notifications",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "payments",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "payouts",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "subscriptions",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "reporter_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "reports",
+      "column_name": "reviewed_by",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "audit_logs",
+      "column_name": "admin_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "admin_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "admin_actions",
+      "column_name": "target_user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    },
+    {
+      "table_name": "activity_logs",
+      "column_name": "user_id",
+      "foreign_table_name": "users",
+      "foreign_column_name": "id"
+    }
+  ]
+}

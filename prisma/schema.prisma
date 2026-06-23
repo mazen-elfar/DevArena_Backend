@@ -14,35 +14,31 @@ datasource db {
 // ═══════════════════════════════════════════
 
 model User {
-  id               String    @id @default(uuid()) @db.Uuid
-  email            String    @unique @db.VarChar(255)
-  passwordHash     String?   @map("password_hash") @db.VarChar(255)
-  provider         AuthProvider @default(LOCAL)
-  emailVerified    Boolean   @default(false) @map("email_verified")
-  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
-  deletedAt        DateTime? @map("deleted_at") @db.Timestamptz()
+  id            String       @id @default(uuid()) @db.Uuid
+  email         String       @unique @db.VarChar(255)
+  passwordHash  String?      @map("password_hash") @db.VarChar(255)
+  provider      AuthProvider @default(LOCAL)
+  emailVerified Boolean      @default(false) @map("email_verified")
+  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt     DateTime?    @map("deleted_at") @db.Timestamptz()
 
   // RBAC
-  roles            UserRole[]
-  permissions      UserPermission[]
+  roles       UserRole[]
+  permissions UserPermission[]
 
   // Relations
-  profile                  Profile?
-  providers                UserProvider[]
-  activityLogs             ActivityLog[]
-  auditLogs                AuditLog[]
-  
-  // Future direct auth relations (MFA, Sessions etc)
-  
+  profile   Profile?
+  providers UserProvider[]
+
   @@index([createdAt])
   @@map("users")
 }
 
 model Role {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique @db.VarChar(50) // GUEST, DEVELOPER, PREMIUM, MODERATOR, ADMIN, SUPERADMIN
-  description String?    @db.Text
+  id          Int              @id @default(autoincrement())
+  name        String           @unique @db.VarChar(50) // GUEST, DEVELOPER, PREMIUM, MODERATOR, ADMIN, SUPERADMIN
+  description String?          @db.Text
   users       UserRole[]
   permissions RolePermission[]
 
@@ -50,7 +46,7 @@ model Role {
 }
 
 model Permission {
-  id          String   @id @db.VarChar(50) // e.g., "CREATE_POST"
+  id          String           @id @db.VarChar(50) // e.g., "CREATE_POST"
   description String?
   roles       RolePermission[]
   users       UserPermission[]
@@ -121,74 +117,98 @@ model UserProvider {
 // ═══════════════════════════════════════════
 
 model Profile {
-  id               String   @id @default(uuid()) @db.Uuid
-  userId           String   @unique @map("user_id") @db.Uuid
-  username         String   @unique @db.VarChar(50)
-  displayName      String?  @map("display_name") @db.VarChar(100)
-  avatar           String?  @db.Text
-  banner           String?  @db.Text
-  bio              String?  @db.Text
-  
+  id          String  @id @default(uuid()) @db.Uuid
+  userId      String  @unique @map("user_id") @db.Uuid
+  username    String  @unique @db.VarChar(50)
+  displayName String? @map("display_name") @db.VarChar(100)
+  avatar      String? @db.Text
+  banner      String? @db.Text
+  bio         String? @db.Text
+
   // Education
-  university       String?  @db.VarChar(100)
-  major            String?  @db.VarChar(100)
-  graduationYear   Int?     @map("graduation_year")
+  university     String? @db.VarChar(100)
+  major          String? @db.VarChar(100)
+  graduationYear Int?    @map("graduation_year")
 
   // Location
-  country          String?  @db.VarChar(100)
-  region           String?  @db.VarChar(100)
+  country String? @db.VarChar(100)
+  region  String? @db.VarChar(100)
 
   // Socials
-  githubUsername   String?  @map("github_username") @db.VarChar(100)
-  githubUrl        String?  @map("github_url") @db.Text
-  linkedinUrl      String?  @map("linkedin_url") @db.Text
-  portfolioUrl     String?  @map("portfolio_url") @db.Text
-  websiteUrl       String?  @map("website_url") @db.Text
+  githubUsername String? @map("github_username") @db.VarChar(100)
+  githubUrl      String? @map("github_url") @db.Text
+  linkedinUrl    String? @map("linkedin_url") @db.Text
+  portfolioUrl   String? @map("portfolio_url") @db.Text
+  websiteUrl     String? @map("website_url") @db.Text
 
   // Stats (Denormalized)
-  level            Int      @default(1)
-  currentXP        BigInt   @default(0) @map("current_xp")
-  totalXP          BigInt   @default(0) @map("total_xp")
-  rating           Int      @default(1000)
-  reputation       Int      @default(0)
+  level      Int    @default(1)
+  currentXP  BigInt @default(0) @map("current_xp")
+  totalXP    BigInt @default(0) @map("total_xp")
+  rating     Int    @default(1000)
+  reputation Int    @default(0)
 
   // Flags
-  profileCompleted Boolean  @default(false) @map("profile_completed")
-  isVerified       Boolean  @default(false) @map("is_verified")
-  isOnline         Boolean  @default(false) @map("is_online")
+  profileCompleted Boolean @default(false) @map("profile_completed")
+  isVerified       Boolean @default(false) @map("is_verified")
+  isOnline         Boolean @default(false) @map("is_online")
 
   // Relations
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   reputationScores Reputation?
   skills           UserSkill[]
-  
+
   // Community Relations
-  posts                    Post[]
-  comments                 Comment[]
-  reactions                Reaction[]
-  savedPosts               SavedPost[]
-  followers                Follow[]                  @relation("Following")
-  following                Follow[]                  @relation("Follower")
-  circles                  CircleMember[]
-  
+  posts      Post[]         @relation("ProfilePosts")
+  comments   Comment[]      @relation("ProfileComments")
+  reactions  Reaction[]     @relation("ProfileReactions")
+  savedPosts SavedPost[]    @relation("ProfileSavedPosts")
+  followers  Follow[]       @relation("Following")
+  following  Follow[]       @relation("Follower")
+  circles    CircleMember[]
+  ownedCircles DeveloperCircle[]
+
   // Competitive Relations
-  submissions              Submission[]
-  battlePlayers            BattlePlayer[]
-  battleSubmissions        BattleSubmission[]
-  tournamentRegistrations  TournamentRegistration[]
-  tournamentParticipants   TournamentParticipant[]
-  tournamentResults        TournamentResult[]
-  rankHistory              RankHistory[]
-  xpLogs                   XpLog[]
-  userAchievements         UserAchievement[]
-  
+  submissions             Submission[]
+  battlePlayers           BattlePlayer[]
+  battleSubmissions       BattleSubmission[]
+  wonBattles              Battle[]
+  bracketPlayer1          Bracket[]           @relation("BracketPlayer1")
+  bracketPlayer2          Bracket[]           @relation("BracketPlayer2")
+  bracketWins             Bracket[]           @relation("BracketWinner")
+  tournamentRegistrations TournamentRegistration[]
+  tournamentParticipants  TournamentParticipant[]
+  tournamentResults       TournamentResult[]
+  rankHistory             UserRankHistory[]
+  xpLogs                  XpLog[]
+  userAchievements        UserAchievement[]
+  coinTransactions        CoinTransaction[]
+  streaks                 Streak[]
+  organizationMembers     OrganizationMember[]
+  teamMemberships         TeamMember[]
+  sentInvites             TeamInvite[]        @relation("TeamInviter")
+  receivedInvites         TeamInvite[]        @relation("TeamInvitee")
+  verificationRequests    VerificationRequest[]
+  userTitles              UserTitle[]
+
   // System
-  notifications            Notification[]
-  activityLogs             Activity[]
-  reports                  Report[]                  @relation("Target")
-  reportedBy               Report[]                  @relation("Reporter")
-  moderationActions        ModerationAction[]        @relation("ModeratedUser")
-  
+  notifications        Notification[]
+  subscriptions        Subscription[]
+  matchmakingQueue     MatchmakingQueue[]
+  payments             Payment[]
+  payouts              Payout[]
+  friendshipsRequested Friendship[]              @relation("Requester")
+  friendshipsAddressed Friendship[]              @relation("Addressee")
+  conversations        ConversationParticipant[]
+  messages             Message[]
+  reports              Report[]                  @relation("Target")
+  reportedBy           Report[]                  @relation("Reporter")
+  reviewedReports      Report[]                  @relation("Reviewer")
+  verifiedPayouts      Payout[]                  @relation("Verifier")
+  adminActions         AdminAction[]             @relation("AdminActionAdmin")
+  targetedByAdmin      AdminAction[]             @relation("AdminActionTarget")
+  detailedRankHistory  RankHistory[]
+
   @@index([rating])
   @@index([username])
   @@index([level])
@@ -200,32 +220,32 @@ model Profile {
 // ═══════════════════════════════════════════
 
 model SkillCategory {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique @db.VarChar(100) // e.g., Frontend, Backend
-  skills      Skill[]
+  id     Int     @id @default(autoincrement())
+  name   String  @unique @db.VarChar(100) // e.g., Frontend, Backend
+  skills Skill[]
 
   @@map("skill_categories")
 }
 
 model Skill {
-  id          Int           @id @default(autoincrement())
-  categoryId  Int           @map("category_id")
-  name        String        @unique @db.VarChar(100)
-  category    SkillCategory @relation(fields: [categoryId], references: [id])
-  users       UserSkill[]
+  id         Int           @id @default(autoincrement())
+  categoryId Int           @map("category_id")
+  name       String        @unique @db.VarChar(100)
+  category   SkillCategory @relation(fields: [categoryId], references: [id])
+  users      UserSkill[]
 
   @@map("skills")
 }
 
 model UserSkill {
-  profileId        String     @map("profile_id") @db.Uuid
-  skillId          Int        @map("skill_id")
-  level            ProficiencyLevel @default(BEGINNER)
-  yearsExperience  Int        @default(0) @map("years_experience")
-  isVerified       Boolean    @default(false) @map("is_verified")
-  
-  profile          Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  skill            Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  profileId       String           @map("profile_id") @db.Uuid
+  skillId         Int              @map("skill_id")
+  level           ProficiencyLevel @default(BEGINNER)
+  yearsExperience Int              @default(0) @map("years_experience")
+  isVerified      Boolean          @default(false) @map("is_verified")
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill   Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
 
   @@id([profileId, skillId])
   @@map("user_skills")
@@ -253,7 +273,7 @@ model Post {
   updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
   deletedAt     DateTime? @map("deleted_at") @db.Timestamptz()
 
-  author    User        @relation(fields: [authorId], references: [id])
+  author    Profile     @relation("ProfilePosts", fields: [authorId], references: [id])
   comments  Comment[]
   reactions Reaction[]
   savedBy   SavedPost[]
@@ -284,7 +304,7 @@ model Comment {
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author  User      @relation(fields: [authorId], references: [id])
+  author  Profile   @relation("ProfileComments", fields: [authorId], references: [id])
   parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
   replies Comment[] @relation("CommentReplies")
 
@@ -299,8 +319,8 @@ model Reaction {
   type      ReactionType @default(LIKE)
   createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user Profile @relation("ProfileReactions", fields: [userId], references: [id], onDelete: Cascade)
+  post Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userId, postId])
   @@map("reactions")
@@ -319,18 +339,18 @@ model SavedPost {
   postId    String   @map("post_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user Profile @relation("ProfileSavedPosts", fields: [userId], references: [id], onDelete: Cascade)
+  post Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userId, postId])
   @@map("saved_posts")
 }
 
 model Follow {
-  followerId  String    @map("follower_id") @db.Uuid
-  followingId String    @map("following_id") @db.Uuid
+  followerId  String       @map("follower_id") @db.Uuid
+  followingId String       @map("following_id") @db.Uuid
   status      FollowStatus @default(FOLLOWING)
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz()
 
   follower  Profile @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
   following Profile @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
@@ -350,18 +370,19 @@ enum FollowStatus {
 // ═══════════════════════════════════════════
 
 model DeveloperCircle {
-  id          String   @id @default(uuid()) @db.Uuid
-  ownerId     String   @map("owner_id") @db.Uuid
-  name        String   @db.VarChar(50) // e.g., Friends, Mentors, Rivals
-  color       String?  @db.VarChar(7)
-  members     CircleMember[]
+  id      String         @id @default(uuid()) @db.Uuid
+  ownerId String         @map("owner_id") @db.Uuid
+  name    String         @db.VarChar(50) // e.g., Friends, Mentors, Rivals
+  color   String?        @db.VarChar(7)
+  owner   Profile        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members CircleMember[]
 
   @@map("developer_circles")
 }
 
 model CircleMember {
-  circleId  String   @map("circle_id") @db.Uuid
-  profileId String   @map("profile_id") @db.Uuid
+  circleId  String          @map("circle_id") @db.Uuid
+  profileId String          @map("profile_id") @db.Uuid
   circle    DeveloperCircle @relation(fields: [circleId], references: [id], onDelete: Cascade)
   profile   Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
@@ -381,8 +402,8 @@ model Friendship {
   createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
 
-  requester User @relation("Requester", fields: [requesterId], references: [id], onDelete: Cascade)
-  addressee User @relation("Addressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  requester Profile @relation("Requester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee Profile @relation("Addressee", fields: [addresseeId], references: [id], onDelete: Cascade)
 
   @@index([addresseeId, status])
   @@index([requesterId, status])
@@ -419,7 +440,7 @@ model ConversationParticipant {
   isMuted        Boolean   @default(false) @map("is_muted")
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profile      Profile      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([conversationId, userId])
   @@index([userId])
@@ -436,7 +457,7 @@ model Message {
   updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender       User         @relation(fields: [senderId], references: [id])
+  sender       Profile      @relation(fields: [senderId], references: [id])
 
   @@index([conversationId, createdAt(sort: Desc)])
   @@index([senderId])
@@ -521,8 +542,8 @@ model Submission {
   testResults Json?               @map("test_results") @db.JsonB
   submittedAt DateTime            @default(now()) @map("submitted_at") @db.Timestamptz()
 
-  user  User  @relation(fields: [userId], references: [id])
-  quest Quest @relation(fields: [questId], references: [id])
+  user  Profile @relation(fields: [userId], references: [id])
+  quest Quest   @relation(fields: [questId], references: [id])
 
   @@index([userId, questId])
   @@index([questId, status])
@@ -567,8 +588,10 @@ model Battle {
   createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz()
 
   quest             Quest              @relation(fields: [questId], references: [id])
+  winner            Profile?           @relation(fields: [winnerId], references: [id], onDelete: SetNull)
   players           BattlePlayer[]
   battleSubmissions BattleSubmission[]
+  brackets          Bracket[]
 
   @@index([status])
   @@index([mode])
@@ -603,8 +626,8 @@ model BattlePlayer {
   isWinner Boolean  @default(false) @map("is_winner")
   joinedAt DateTime @default(now()) @map("joined_at") @db.Timestamptz()
 
-  battle Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id])
+  battle Battle  @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  user   Profile @relation(fields: [userId], references: [id])
 
   @@unique([battleId, userId])
   @@index([userId])
@@ -622,8 +645,8 @@ model BattleSubmission {
   testResults Json?               @map("test_results") @db.JsonB
   submittedAt DateTime            @default(now()) @map("submitted_at") @db.Timestamptz()
 
-  battle Battle @relation(fields: [battleId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id])
+  battle Battle  @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  user   Profile @relation(fields: [userId], references: [id])
 
   @@index([battleId])
   @@index([userId])
@@ -637,7 +660,7 @@ model MatchmakingQueue {
   status   MatchmakingStatus @default(QUEUED)
   joinedAt DateTime          @default(now()) @map("joined_at") @db.Timestamptz()
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user Profile @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([status, rating])
   @@index([userId])
@@ -663,6 +686,8 @@ model Rank {
   iconUrl   String? @map("icon_url") @db.Text
   order     Int
 
+  userRankHistory UserRankHistory[]
+
   @@index([minRating, maxRating])
   @@map("ranks")
 }
@@ -687,42 +712,94 @@ model RankHistory {
 // TOURNAMENTS
 // ═══════════════════════════════════════════
 
-// ═══════════════════════════════════════════
-// SEASONAL SYSTEM (D14)
-// ═══════════════════════════════════════════
+model Tournament {
+  id          String           @id @default(uuid()) @db.Uuid
+  title       String           @db.VarChar(255)
+  description String?          @db.Text
+  startDate   DateTime         @map("start_date") @db.Timestamptz()
+  endDate     DateTime         @map("end_date") @db.Timestamptz()
+  status      TournamentStatus @default(UPCOMING)
+  entryFee    Int              @default(0) @map("entry_fee")
+  prizePool   String?          @map("prize_pool")
 
-model Season {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String   @db.VarChar(100) // e.g., Season 1: Genesis
-  startDate DateTime @map("start_date") @db.Timestamptz()
-  endDate   DateTime @map("end_date") @db.Timestamptz()
-  status    SeasonStatus @default(UPCOMING)
-  
-  stats     SeasonProfileStats[]
-  tournaments Tournament[]
+  registrations TournamentRegistration[]
+  participants  TournamentParticipant[]
+  brackets      Bracket[]
+  results       TournamentResult[]
 
-  @@map("seasons")
+  @@map("tournaments")
 }
 
-enum SeasonStatus {
+enum TournamentStatus {
   UPCOMING
-  ACTIVE
-  FINISHED
+  REGISTRATION_OPEN
+  REGISTRATION_CLOSED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
-model SeasonProfileStats {
-  seasonId      String   @map("season_id") @db.Uuid
-  profileId     String   @map("profile_id") @db.Uuid
-  seasonXP      BigInt   @default(0) @map("season_xp")
-  seasonRating  Int      @default(1000) @map("season_rating")
-  seasonReputation Int   @default(0) @map("season_reputation")
-  rank          String?  @db.VarChar(50)
-  
-  season        Season   @relation(fields: [seasonId], references: [id], onDelete: Cascade)
-  profile       Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+model TournamentRegistration {
+  id           String             @id @default(uuid()) @db.Uuid
+  tournamentId String             @map("tournament_id") @db.Uuid
+  profileId    String             @map("profile_id") @db.Uuid
+  status       RegistrationStatus @default(PENDING)
+  createdAt    DateTime           @default(now()) @map("created_at") @db.Timestamptz()
 
-  @@id([seasonId, profileId])
-  @@map("season_profile_stats")
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  profile    Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, profileId])
+  @@map("tournament_registrations")
+}
+
+enum RegistrationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model TournamentParticipant {
+  id           String @id @default(uuid()) @db.Uuid
+  tournamentId String @map("tournament_id") @db.Uuid
+  profileId    String @map("profile_id") @db.Uuid
+  seed         Int?
+  rank         Int?
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  profile    Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, profileId])
+  @@map("tournament_participants")
+}
+
+model TournamentResult {
+  id           String  @id @default(uuid()) @db.Uuid
+  tournamentId String  @map("tournament_id") @db.Uuid
+  profileId    String  @map("profile_id") @db.Uuid
+  position     Int
+  prizeWon     String? @map("prize_won")
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  profile    Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("tournament_results")
+}
+
+// ═══════════════════════════════════════════
+// ECONOMY & REPUTATION
+// ═══════════════════════════════════════════
+
+model Reputation {
+  id            String @id @default(uuid()) @db.Uuid
+  profileId     String @unique @map("profile_id") @db.Uuid
+  contribution  Int    @default(0)
+  mentorship    Int    @default(0)
+  sportsmanship Int    @default(0)
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("profile_reputation")
 }
 
 // ═══════════════════════════════════════════
@@ -739,7 +816,7 @@ model Organization {
   websiteUrl  String?  @map("website_url") @db.Text
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-  members     OrganizationMember[]
+  members OrganizationMember[]
 
   @@map("organizations")
 }
@@ -751,15 +828,22 @@ enum OrgType {
 }
 
 model OrganizationMember {
-  organizationId String   @map("organization_id") @db.Uuid
-  profileId      String   @map("profile_id") @db.Uuid
-  role           String   @default("MEMBER") @db.VarChar(50) // STUDENT, FACULTY, EMPLOYEE
-  
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  profile        Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  organizationId String       @map("organization_id") @db.Uuid
+  profileId      String       @map("profile_id") @db.Uuid
+  role           OrgMemberRole @default(MEMBER)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  profile      Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([organizationId, profileId])
   @@map("organization_members")
+}
+
+enum OrgMemberRole {
+  STUDENT
+  FACULTY
+  EMPLOYEE
+  MEMBER
 }
 
 // ═══════════════════════════════════════════
@@ -774,8 +858,8 @@ model Team {
   avatar      String?  @db.Text
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-  members     TeamMember[]
-  invites     TeamInvite[]
+  members TeamMember[]
+  invites TeamInvite[]
 
   @@map("teams")
 }
@@ -800,14 +884,16 @@ enum TeamRole {
 }
 
 model TeamInvite {
-  id          String   @id @default(uuid()) @db.Uuid
-  teamId      String   @map("team_id") @db.Uuid
-  inviterId   String   @map("inviter_id") @db.Uuid
-  inviteeId   String   @map("invitee_id") @db.Uuid
-  status      InviteStatus @default(PENDING)
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  id        String       @id @default(uuid()) @db.Uuid
+  teamId    String       @map("team_id") @db.Uuid
+  inviterId String       @map("inviter_id") @db.Uuid
+  inviteeId String       @map("invitee_id") @db.Uuid
+  status    InviteStatus @default(PENDING)
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz()
 
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  inviter Profile @relation("TeamInviter", fields: [inviterId], references: [id], onDelete: Cascade)
+  invitee Profile @relation("TeamInvitee", fields: [inviteeId], references: [id], onDelete: Cascade)
 
   @@index([inviteeId])
   @@map("team_invites")
@@ -825,14 +911,14 @@ enum InviteStatus {
 // ═══════════════════════════════════════════
 
 model VerificationRequest {
-  id          String   @id @default(uuid()) @db.Uuid
-  profileId   String   @map("profile_id") @db.Uuid
-  type        VerificationType
-  status      VerificationStatus @default(PENDING)
-  evidence    Json?    @db.JsonB // Documentation urls, github links etc.
-  adminNote   String?  @map("admin_note") @db.Text
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  id        String             @id @default(uuid()) @db.Uuid
+  profileId String             @map("profile_id") @db.Uuid
+  type      VerificationType
+  status    VerificationStatus @default(PENDING)
+  evidence  Json?              @db.JsonB // Documentation urls, github links etc.
+  adminNote String?            @map("admin_note") @db.Text
+  createdAt DateTime           @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime           @updatedAt @map("updated_at") @db.Timestamptz()
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
@@ -856,7 +942,7 @@ model Bracket {
   id           String        @id @default(uuid()) @db.Uuid
   tournamentId String        @map("tournament_id") @db.Uuid
   round        Int
-  match        Int
+  matchNumber  Int           @map("match_number")
   player1Id    String?       @map("player1_id") @db.Uuid
   player2Id    String?       @map("player2_id") @db.Uuid
   winnerId     String?       @map("winner_id") @db.Uuid
@@ -864,6 +950,10 @@ model Bracket {
   status       BracketStatus @default(PENDING)
 
   tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  player1    Profile?   @relation("BracketPlayer1", fields: [player1Id], references: [id], onDelete: SetNull)
+  player2    Profile?   @relation("BracketPlayer2", fields: [player2Id], references: [id], onDelete: SetNull)
+  winner     Profile?   @relation("BracketWinner", fields: [winnerId], references: [id], onDelete: SetNull)
+  battle     Battle?    @relation(fields: [battleId], references: [id], onDelete: SetNull)
 
   @@index([tournamentId, round])
   @@map("brackets")
@@ -876,17 +966,17 @@ enum BracketStatus {
 }
 
 model Achievement {
-  id          Int     @id @default(autoincrement())
-  slug        String  @unique @db.VarChar(100)
-  name        String  @db.VarChar(100)
-  description String  @db.Text
-  icon        String? @db.Text
-  category    AchievementCategory
-  rarity      AchievementRarity @default(COMMON)
-  xpReward    Int     @default(0) @map("xp_reward")
-  reputationReward Int @default(0) @map("reputation_reward")
-  hidden      Boolean @default(false)
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  id               Int                 @id @default(autoincrement())
+  slug             String              @unique @db.VarChar(100)
+  name             String              @db.VarChar(100)
+  description      String              @db.Text
+  icon             String?             @db.Text
+  category         AchievementCategory
+  rarity           AchievementRarity   @default(COMMON)
+  xpReward         Int                 @default(0) @map("xp_reward")
+  reputationReward Int                 @default(0) @map("reputation_reward")
+  hidden           Boolean             @default(false)
+  createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz()
 
   userAchievements UserAchievement[]
 
@@ -985,7 +1075,7 @@ model CoinTransaction {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId, createdAt(sort: Desc)])
-  @@map("coins_transactions")
+  @@map("coin_transactions")
 }
 
 // ═══════════════════════════════════════════
@@ -1005,7 +1095,7 @@ model Payment {
   createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz()
   completedAt    DateTime?     @map("completed_at") @db.Timestamptz()
 
-  profile        Profile       @relation(fields: [profileId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId, createdAt(sort: Desc)])
   @@index([status])
@@ -1038,7 +1128,8 @@ model Payout {
   createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz()
   completedAt DateTime?     @map("completed_at") @db.Timestamptz()
 
-  profile     Profile       @relation(fields: [profileId], references: [id])
+  profile  Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  verifier Profile? @relation("Verifier", fields: [verifiedBy], references: [id], onDelete: SetNull)
 
   @@index([profileId, createdAt(sort: Desc)])
   @@map("payouts")
@@ -1067,7 +1158,7 @@ model Subscription {
   expiresAt DateTime           @map("expires_at") @db.Timestamptz()
   autoRenew Boolean            @default(true) @map("auto_renew")
 
-  profile   Profile            @relation(fields: [profileId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId, status])
   @@map("subscriptions")
@@ -1085,21 +1176,95 @@ enum SubscriptionStatus {
 }
 
 // ═══════════════════════════════════════════
-// ADMINISTRATION & AUDIT
+// CRITICAL RECOVERY MODELS
 // ═══════════════════════════════════════════
 
-model AuditLog {
-  id         String   @id @default(uuid()) @db.Uuid
-  adminId    String   @map("admin_id") @db.Uuid
-  action     String   @db.VarChar(255)
-  entityType String   @map("entity_type") @db.VarChar(50)
-  entityId   String   @map("entity_id") @db.Uuid
-  oldValues  Json?    @map("old_values") @db.JsonB
-  newValues  Json?    @map("new_values") @db.JsonB
-  ipAddress  String?  @map("ip_address") @db.Inet
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz()
+model Notification {
+  id        String   @id @default(uuid()) @db.Uuid
+  profileId String   @map("profile_id") @db.Uuid
+  type      String   @db.VarChar(50)
+  title     String   @db.VarChar(255)
+  message   String   @db.Text
+  link      String?  @db.Text
+  metadata  Json?    @db.JsonB
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-  @@index([adminId, createdAt(sort: Desc)])
-  @@index([entityType, entityId])
-  @@map("audit_logs")
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+model XpLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  profileId   String   @map("profile_id") @db.Uuid
+  amount      Int
+  source      String   @db.VarChar(50)
+  description String?  @db.Text
+  referenceId String?  @map("reference_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, createdAt(sort: Desc)])
+  @@map("xp_logs")
+}
+
+model UserRankHistory {
+  id        String   @id @default(uuid()) @db.Uuid
+  profileId String   @map("profile_id") @db.Uuid
+  rankId    Int?     @map("rank_id")
+  oldRating Int      @map("old_rating")
+  newRating Int      @map("new_rating")
+  changedAt DateTime @default(now()) @map("changed_at") @db.Timestamptz()
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  rank    Rank?   @relation(fields: [rankId], references: [id], onDelete: SetNull)
+
+  @@index([profileId, changedAt(sort: Desc)])
+  @@map("user_rank_history")
+}
+
+// ═══════════════════════════════════════════
+// STUB MODELS (REQUIRED LATER)
+// ═══════════════════════════════════════════
+
+model Report {
+  id         String       @id @default(uuid()) @db.Uuid
+  reporterId String       @map("reporter_id") @db.Uuid
+  targetId   String       @map("target_id") @db.Uuid
+  reason     String       @db.Text
+  status     ReportStatus @default(OPEN)
+  reviewedBy String?      @map("reviewed_by") @db.Uuid
+  resolvedAt DateTime?    @map("resolved_at") @db.Timestamptz()
+  createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+
+  reporter Profile @relation("Reporter", fields: [reporterId], references: [id])
+  target   Profile @relation("Target", fields: [targetId], references: [id])
+  reviewer Profile? @relation("Reviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@map("reports")
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  REJECTED
+}
+
+model AdminAction {
+  id           String    @id @default(uuid()) @db.Uuid
+  adminId      String    @map("admin_id") @db.Uuid
+  targetUserId String    @map("target_user_id") @db.Uuid
+  action       String    @db.VarChar(50) // BAN, SUSPEND, MUTE, WARN
+  reason       String    @db.Text
+  durationHrs  Int?      @map("duration_hours")
+  expiresAt    DateTime? @map("expires_at") @db.Timestamptz()
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+
+  admin      Profile @relation("AdminActionAdmin", fields: [adminId], references: [id], onDelete: Cascade)
+  targetUser Profile @relation("AdminActionTarget", fields: [targetUserId], references: [id], onDelete: Cascade)
+
+  @@map("admin_actions")
 }

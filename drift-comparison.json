@@ -1,0 +1,601 @@
+{
+  "missingTables": [
+    {
+      "model": "Permission",
+      "tableName": "permissions"
+    },
+    {
+      "model": "RolePermission",
+      "tableName": "role_permissions"
+    },
+    {
+      "model": "UserPermission",
+      "tableName": "user_permissions"
+    },
+    {
+      "model": "SkillCategory",
+      "tableName": "skill_categories"
+    },
+    {
+      "model": "Skill",
+      "tableName": "skills"
+    },
+    {
+      "model": "UserSkill",
+      "tableName": "user_skills"
+    },
+    {
+      "model": "DeveloperCircle",
+      "tableName": "developer_circles"
+    },
+    {
+      "model": "CircleMember",
+      "tableName": "circle_members"
+    },
+    {
+      "model": "RankHistory",
+      "tableName": "rank_history"
+    },
+    {
+      "model": "Reputation",
+      "tableName": "profile_reputation"
+    },
+    {
+      "model": "Organization",
+      "tableName": "organizations"
+    },
+    {
+      "model": "OrganizationMember",
+      "tableName": "organization_members"
+    },
+    {
+      "model": "Team",
+      "tableName": "teams"
+    },
+    {
+      "model": "TeamMember",
+      "tableName": "team_members"
+    },
+    {
+      "model": "TeamInvite",
+      "tableName": "team_invites"
+    },
+    {
+      "model": "VerificationRequest",
+      "tableName": "verification_requests"
+    },
+    {
+      "model": "CoinTransaction",
+      "tableName": "coin_transactions"
+    }
+  ],
+  "missingColumns": [
+    {
+      "model": "User",
+      "tableName": "users",
+      "column": "provider"
+    },
+    {
+      "model": "User",
+      "tableName": "users",
+      "column": "roles"
+    },
+    {
+      "model": "User",
+      "tableName": "users",
+      "column": "permissions"
+    },
+    {
+      "model": "User",
+      "tableName": "users",
+      "column": "profile"
+    },
+    {
+      "model": "User",
+      "tableName": "users",
+      "column": "providers"
+    },
+    {
+      "model": "Role",
+      "tableName": "roles",
+      "column": "users"
+    },
+    {
+      "model": "Role",
+      "tableName": "roles",
+      "column": "permissions"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "username"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "avatar"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "banner"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "bio"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "university"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "major"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "graduation_year"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "country"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "region"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "github_username"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "github_url"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "linkedin_url"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "portfolio_url"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "website_url"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "level"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "current_xp"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "total_xp"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "reputation"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "profile_completed"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "is_verified"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "is_online"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "reputationScores"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "skills"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "circles"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "ownedCircles"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "submissions"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "battlePlayers"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "battleSubmissions"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "wonBattles"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "tournamentRegistrations"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "tournamentParticipants"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "tournamentResults"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "rankHistory"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "xpLogs"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "userAchievements"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "coinTransactions"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "streaks"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "organizationMembers"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "teamMemberships"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "verificationRequests"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "userTitles"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "notifications"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "subscriptions"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "matchmakingQueue"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "payments"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "payouts"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "conversations"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "messages"
+    },
+    {
+      "model": "Profile",
+      "tableName": "profiles",
+      "column": "detailedRankHistory"
+    },
+    {
+      "model": "Post",
+      "tableName": "posts",
+      "column": "comments"
+    },
+    {
+      "model": "Post",
+      "tableName": "posts",
+      "column": "reactions"
+    },
+    {
+      "model": "Post",
+      "tableName": "posts",
+      "column": "savedBy"
+    },
+    {
+      "model": "Follow",
+      "tableName": "follows",
+      "column": "status"
+    },
+    {
+      "model": "Conversation",
+      "tableName": "conversations",
+      "column": "participants"
+    },
+    {
+      "model": "Conversation",
+      "tableName": "conversations",
+      "column": "messages"
+    },
+    {
+      "model": "QuestCategory",
+      "tableName": "quest_categories",
+      "column": "quests"
+    },
+    {
+      "model": "Quest",
+      "tableName": "quests",
+      "column": "testCases"
+    },
+    {
+      "model": "Quest",
+      "tableName": "quests",
+      "column": "submissions"
+    },
+    {
+      "model": "Quest",
+      "tableName": "quests",
+      "column": "battles"
+    },
+    {
+      "model": "Battle",
+      "tableName": "battles",
+      "column": "players"
+    },
+    {
+      "model": "Battle",
+      "tableName": "battles",
+      "column": "battleSubmissions"
+    },
+    {
+      "model": "Battle",
+      "tableName": "battles",
+      "column": "brackets"
+    },
+    {
+      "model": "Rank",
+      "tableName": "ranks",
+      "column": "userRankHistory"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "title"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "start_date"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "end_date"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "registrations"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "participants"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "brackets"
+    },
+    {
+      "model": "Tournament",
+      "tableName": "tournaments",
+      "column": "results"
+    },
+    {
+      "model": "TournamentRegistration",
+      "tableName": "tournament_registrations",
+      "column": "id"
+    },
+    {
+      "model": "TournamentRegistration",
+      "tableName": "tournament_registrations",
+      "column": "profile_id"
+    },
+    {
+      "model": "TournamentRegistration",
+      "tableName": "tournament_registrations",
+      "column": "status"
+    },
+    {
+      "model": "TournamentRegistration",
+      "tableName": "tournament_registrations",
+      "column": "created_at"
+    },
+    {
+      "model": "TournamentParticipant",
+      "tableName": "tournament_participants",
+      "column": "profile_id"
+    },
+    {
+      "model": "TournamentParticipant",
+      "tableName": "tournament_participants",
+      "column": "seed"
+    },
+    {
+      "model": "TournamentParticipant",
+      "tableName": "tournament_participants",
+      "column": "rank"
+    },
+    {
+      "model": "TournamentResult",
+      "tableName": "tournament_results",
+      "column": "profile_id"
+    },
+    {
+      "model": "TournamentResult",
+      "tableName": "tournament_results",
+      "column": "prize_won"
+    },
+    {
+      "model": "Bracket",
+      "tableName": "brackets",
+      "column": "match_number"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "slug"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "icon"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "rarity"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "reputation_reward"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "hidden"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "created_at"
+    },
+    {
+      "model": "Achievement",
+      "tableName": "achievements",
+      "column": "userAchievements"
+    },
+    {
+      "model": "UserAchievement",
+      "tableName": "user_achievements",
+      "column": "profile_id"
+    },
+    {
+      "model": "Title",
+      "tableName": "titles",
+      "column": "userTitles"
+    },
+    {
+      "model": "UserTitle",
+      "tableName": "user_titles",
+      "column": "profile_id"
+    },
+    {
+      "model": "Streak",
+      "tableName": "streaks",
+      "column": "profile_id"
+    },
+    {
+      "model": "Payment",
+      "tableName": "payments",
+      "column": "profile_id"
+    },
+    {
+      "model": "Payout",
+      "tableName": "payouts",
+      "column": "profile_id"
+    },
+    {
+      "model": "Subscription",
+      "tableName": "subscriptions",
+      "column": "profile_id"
+    },
+    {
+      "model": "Notification",
+      "tableName": "notifications",
+      "column": "profile_id"
+    },
+    {
+      "model": "XpLog",
+      "tableName": "xp_logs",
+      "column": "profile_id"
+    },
+    {
+      "model": "UserRankHistory",
+      "tableName": "user_rank_history",
+      "column": "profile_id"
+    },
+    {
+      "model": "AdminAction",
+      "tableName": "admin_actions",
+      "column": "duration_hrs"
+    }
+  ],
+  "extraColumns": [],
+  "typeMismatches": []
+}

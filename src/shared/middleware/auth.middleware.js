@@ -31,24 +31,24 @@ export async function authenticate(req, res, next) {
       },
     });
 
-    if (!user || user.status === 'BANNED' || user.deletedAt) {
+    if (!user || user.deletedAt) {
       throw Errors.Unauthorized("Account is not available");
     }
 
     const roles = user.roles.map((ur) => ur.role.name);
     const permissions = [...new Set(
-      user.roles.flatMap(ur => 
-        ur.role.permissions.map(rp => rp.permission.slug)
+      user.roles.flatMap(ur =>
+        ur.role.permissions.map(rp => rp.permissionId)
       )
     )];
 
     req.user = {
       id: user.id,
       profileId: user.profile?.id,
+      username: user.profile?.username,
       email: user.email,
       roles,
       permissions,
-      status: user.status
     };
     next();
   } catch (error) {
