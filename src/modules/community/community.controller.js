@@ -6,7 +6,7 @@ const communityService = new CommunityService();
 export class CommunityController {
   async createPost(req, res, next) {
     try {
-      const post = await communityService.createPost(req.user.id, req.body);
+      const post = await communityService.createPost(req.user.profile.id, req.body);
       return sendSuccess(res, post, "Post created", 201);
     } catch (error) {
       next(error);
@@ -39,7 +39,7 @@ export class CommunityController {
 
   async updatePost(req, res, next) {
     try {
-      const post = await communityService.updatePost(req.params.id, req.user.id, req.body);
+      const post = await communityService.updatePost(req.params.id, req.user.profile.id, req.body);
       return sendSuccess(res, post, "Post updated");
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ export class CommunityController {
 
   async deletePost(req, res, next) {
     try {
-      await communityService.deletePost(req.params.id, req.user.id);
+      await communityService.deletePost(req.params.id, req.user.profile.id);
       return sendSuccess(res, null, "Post deleted");
     } catch (error) {
       next(error);
@@ -57,7 +57,7 @@ export class CommunityController {
 
   async toggleReaction(req, res, next) {
     try {
-      const result = await communityService.toggleReaction(req.user.id, req.params.id, req.body.type);
+      const result = await communityService.toggleReaction(req.user.profile.id, req.params.id, req.body.type);
       return sendSuccess(res, result);
     } catch (error) {
       next(error);
@@ -66,7 +66,7 @@ export class CommunityController {
 
   async createComment(req, res, next) {
     try {
-      const comment = await communityService.createComment(req.params.id, req.user.id, req.body);
+      const comment = await communityService.createComment(req.params.id, req.user.profile.id, req.body);
       return sendSuccess(res, comment, "Comment created", 201);
     } catch (error) {
       next(error);
@@ -88,7 +88,7 @@ export class CommunityController {
 
   async toggleSave(req, res, next) {
     try {
-      const result = await communityService.toggleSave(req.user.id, req.params.id);
+      const result = await communityService.toggleSave(req.user.profile.id, req.params.id);
       return sendSuccess(res, result);
     } catch (error) {
       next(error);

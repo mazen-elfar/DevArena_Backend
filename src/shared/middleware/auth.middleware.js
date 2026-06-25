@@ -42,11 +42,17 @@ export async function authenticate(req, res, next) {
       )
     )];
 
+    // Convert BigInt fields in profile if they exist
+    const profile = user.profile ? {
+      ...user.profile,
+      currentXP: typeof user.profile.currentXP === 'bigint' ? Number(user.profile.currentXP) : user.profile.currentXP,
+      totalXP: typeof user.profile.totalXP === 'bigint' ? Number(user.profile.totalXP) : user.profile.totalXP,
+    } : null;
+
     req.user = {
       id: user.id,
-      profileId: user.profile?.id,
-      username: user.profile?.username,
       email: user.email,
+      profile, // Include full profile for frontend guards
       roles,
       permissions,
     };

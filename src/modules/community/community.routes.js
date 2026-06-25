@@ -8,8 +8,8 @@ const router = Router();
 const controller = new CommunityController();
 
 const createPostSchema = z.object({
-  type: z.enum(["TEXT", "ACHIEVEMENT", "BATTLE_RESULT", "QUEST_COMPLETION", "TOURNAMENT_RESULT"]).optional(),
-  title: z.string().max(255).optional(),
+  type: z.enum(["TEXT", "ACHIEVEMENT", "BATTLE_RESULT", "QUEST_COMPLETION", "TOURNAMENT_RESULT", "PROJECT_SHOWCASE", "DISCUSSION"]).nullish().default("TEXT"),
+  title: z.string().max(255).nullish(),
   content: z.string().min(1),
 });
 
@@ -19,7 +19,7 @@ const reactionSchema = z.object({
 
 const commentSchema = z.object({
   content: z.string().min(1),
-  parentId: z.string().uuid().optional(),
+  parentId: z.string().uuid().nullish(),
 });
 
 // Public routes

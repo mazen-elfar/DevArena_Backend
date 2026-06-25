@@ -66,7 +66,15 @@ export class AuthService {
         },
       },
       include: {
-        roles: { include: { role: true } },
+        roles: {
+          include: {
+            role: {
+              include: {
+                permissions: true,
+              },
+            },
+          },
+        },
         profile: true,
       },
     });
@@ -118,7 +126,15 @@ export class AuthService {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-        roles: { include: { role: true } },
+        roles: {
+          include: {
+            role: {
+              include: {
+                permissions: true,
+              },
+            },
+          },
+        },
         profile: true,
       },
     });
@@ -175,15 +191,32 @@ export class AuthService {
   _sanitizeUser(user) {
     if (!user) return null;
     // eslint-disable-next-line no-unused-vars
-    const { passwordHash, ...safe } = user;
+    const { passwordHash, roles: userRoles, ...safe } = user;
     
-    // Flatten and convert BigInt fields from profile
+    // Flatten roles and extract permissions
+    const roles = userRoles?.map((ur) => ur.role.name) || [];
+    const permissions = [...new Set(
+      userRoles?.flatMap(ur =>
+        ur.role.permissions?.map(rp => rp.permissionId) || []
+      ) || []
+    )];
+
+    // Simplify profile and handle BigInt
+    let profile = null;
     if (safe.profile) {
-      if (typeof safe.profile.currentXP === "bigint") safe.profile.currentXP = Number(safe.profile.currentXP);
-      if (typeof safe.profile.totalXP === "bigint") safe.profile.totalXP = Number(safe.profile.totalXP);
+      profile = {
+        ...safe.profile,
+        currentXP: typeof safe.profile.currentXP === "bigint" ? Number(safe.profile.currentXP) : safe.profile.currentXP,
+        totalXP: typeof safe.profile.totalXP === "bigint" ? Number(safe.profile.totalXP) : safe.profile.totalXP,
+      };
     }
     
-    return safe;
+    return {
+      ...safe,
+      profile,
+      roles,
+      permissions
+    };
   }
 
   // ─── Social Auth ───────────────────────────────────────────────────────────
@@ -281,7 +314,15 @@ export class AuthService {
         },
       },
       include: {
-        roles: { include: { role: true } },
+        roles: {
+          include: {
+            role: {
+              include: {
+                permissions: true,
+              },
+            },
+          },
+        },
         profile: true,
       },
     });
@@ -303,7 +344,15 @@ export class AuthService {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-        roles: { include: { role: true } },
+        roles: {
+          include: {
+            role: {
+              include: {
+                permissions: true,
+              },
+            },
+          },
+        },
         profile: true,
       },
     });

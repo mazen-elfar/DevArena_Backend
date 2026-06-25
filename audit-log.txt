@@ -1,0 +1,9 @@
+--- DB AUDIT SUMMARY ---
+User: d0fcbf0b-5b8b-4283-8c52-ba9800a43d8d
+  Email: mazenalfar01@gmail.com
+  Profile: 17326296-22cc-45f6-b099-d1505da06cce | Completed: true | Username: Mazen
+User: 8086b7f7-13a8-43f3-8b31-5599bc6ded12
+  Email: test@devarena.io
+  Profile: ee0b4f91-2a8e-4f79-9cdd-f94f2863ef88 | Completed: false | Username: testuser
+
+--- DUPLICATE CHECK ---

@@ -74,9 +74,9 @@ export class ProfileService {
    * Complete the onboarding profile for a social-auth user.
    * Marks `profileCompleted = true` once done.
    * @param {string} userId
-   * @param {{ username?, major?, region?, bio? }} data
+   * @param {{ username?, major?, region?, bio?, avatar? }} data
    */
-  async completeOnboarding(userId, { username, major, region, bio }) {
+  async completeOnboarding(userId, { username, major, region, bio, avatar }) {
     const prisma = getPrisma();
 
     // Validate username uniqueness if changing it
@@ -94,19 +94,12 @@ export class ProfileService {
         ...(major !== undefined ? { major } : {}),
         ...(region !== undefined ? { region } : {}),
         ...(bio !== undefined ? { bio } : {}),
+        ...(avatar !== undefined ? { avatar } : {}),
         profileCompleted: true,
-      },
-      select: {
-        id: true,
-        username: true,
-        major: true,
-        region: true,
-        bio: true,
-        profileCompleted: true,
-        avatar: true,
       },
     });
 
-    return updatedProfile;
+    // Return fixed up user object
+    return this.getMe(userId);
   }
 }
