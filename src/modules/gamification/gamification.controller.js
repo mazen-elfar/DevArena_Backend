@@ -6,7 +6,8 @@ const gamificationService = new GamificationService();
 export class GamificationController {
   async addXp(req, res, next) {
     try {
-      const { userId, amount, source, description, referenceId } = req.body;
+      const { amount, source, description, referenceId } = req.body;
+      const userId = req.user.profile.id;
       const result = await gamificationService.addXp(userId, amount, source, description, referenceId);
       return sendSuccess(res, result, "XP added");
     } catch (error) {

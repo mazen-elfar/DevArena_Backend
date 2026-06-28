@@ -207,6 +207,8 @@ model Profile {
   verifiedPayouts      Payout[]                  @relation("Verifier")
   adminActions         AdminAction[]             @relation("AdminActionAdmin")
   targetedByAdmin      AdminAction[]             @relation("AdminActionTarget")
+  battleEvents       BattleEvent[] @relation("BattleEventUser")
+  battleMessages     BattleMessage[]
   detailedRankHistory  RankHistory[]
 
   @@index([rating])
@@ -592,10 +594,14 @@ model Battle {
   players           BattlePlayer[]
   battleSubmissions BattleSubmission[]
   brackets          Bracket[]
+  events            BattleEvent[]
+  messages          BattleMessage[]
 
   @@index([status])
   @@index([mode])
   @@index([createdAt(sort: Desc)])
+  @@index([questId])
+  @@index([winnerId])
   @@map("battles")
 }
 
@@ -650,7 +656,37 @@ model BattleSubmission {
 
   @@index([battleId])
   @@index([userId])
+  @@index([battleId, userId])
   @@map("battle_submissions")
+}
+
+model BattleEvent {
+  id        String   @id @default(uuid()) @db.Uuid
+  battleId  String   @map("battle_id") @db.Uuid
+  type      String   @db.VarChar(50)
+  userId    String?  @map("user_id") @db.Uuid
+  data      Json?    @db.JsonB
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  battle Battle  @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  user   Profile? @relation("BattleEventUser", fields: [userId], references: [id])
+
+  @@index([battleId, createdAt])
+  @@map("battle_events")
+}
+
+model BattleMessage {
+  id        String   @id @default(uuid()) @db.Uuid
+  battleId  String   @map("battle_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  battle Battle  @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  user   Profile @relation(fields: [userId], references: [id])
+
+  @@index([battleId, createdAt])
+  @@map("battle_messages")
 }
 
 model MatchmakingQueue {

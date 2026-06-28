@@ -1,5 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
+// Fix: Prisma returns BigInt fields which can't be JSON-serialized by default.
+// This polyfill converts BigInt to Number when JSON.stringify is called.
+if (typeof BigInt.prototype.toJSON === "undefined") {
+  BigInt.prototype.toJSON = function () {
+    return Number(this);
+  };
+}
+
 let prisma;
 
 export function getPrisma() {

@@ -8,7 +8,6 @@ const router = Router();
 const controller = new GamificationController();
 
 const addXpSchema = z.object({
-  userId: z.string().uuid(),
   amount: z.number().int().positive(),
   source: z.enum(["QUEST", "BATTLE", "TOURNAMENT", "DAILY", "ACHIEVEMENT"]),
   description: z.string().max(255).optional(),

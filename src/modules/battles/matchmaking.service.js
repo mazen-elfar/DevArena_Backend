@@ -4,11 +4,11 @@ import { Errors } from "../../shared/errors/error-definitions.js";
 
 const QUEUE_KEY = "matchmaking:queue";
 const RATING_RANGE = 200;
+const QUEUE_TTL_MS = 120_000;
 
 export class MatchmakingService {
   async joinQueue(userId, rating) {
     const prisma = getPrisma();
-    const redis = getRedis();
 
     const existing = await prisma.matchmakingQueue.findFirst({
       where: { userId, status: "QUEUED" },
@@ -19,13 +19,18 @@ export class MatchmakingService {
       data: { userId, rating, status: "QUEUED" },
     });
 
-    await redis.zadd(QUEUE_KEY, rating, userId);
+    try {
+      const redis = getRedis();
+      await redis.zadd(QUEUE_KEY, rating, userId);
+    } catch {
+      // Redis unavailable — database-only mode
+    }
+
     return entry;
   }
 
   async leaveQueue(userId) {
     const prisma = getPrisma();
-    const redis = getRedis();
 
     const entry = await prisma.matchmakingQueue.findFirst({
       where: { userId, status: "QUEUED" },
@@ -37,73 +42,144 @@ export class MatchmakingService {
       data: { status: "EXPIRED" },
     });
 
-    await redis.zrem(QUEUE_KEY, userId);
+    try {
+      const redis = getRedis();
+      await redis.zrem(QUEUE_KEY, userId);
+    } catch {
+      // Redis unavailable — database-only mode
+    }
   }
 
   async findMatches() {
     const prisma = getPrisma();
-    const redis = getRedis();
+    const now = new Date();
+    const expirationCutoff = new Date(now.getTime() - QUEUE_TTL_MS);
 
-    const queuedUsers = await redis.zrangebyscore(QUEUE_KEY, "-inf", "+inf", "WITHSCORES");
-    const matches = [];
+    const expired = await prisma.matchmakingQueue.updateMany({
+      where: {
+        status: "QUEUED",
+        joinedAt: { lt: expirationCutoff },
+      },
+      data: { status: "EXPIRED" },
+    });
+
+    const queuedUsers = await prisma.matchmakingQueue.findMany({
+      where: { status: "QUEUED" },
+      orderBy: { rating: "asc" },
+    });
+
+    const battles = [];
     const processed = new Set();
 
-    for (let i = 0; i < queuedUsers.length; i += 2) {
-      const userId = queuedUsers[i];
-      const rating = parseInt(queuedUsers[i + 1]);
+    for (const candidate of queuedUsers) {
+      if (processed.has(candidate.userId)) continue;
 
-      if (processed.has(userId)) continue;
-
-      const candidates = await redis.zrangebyscore(
-        QUEUE_KEY,
-        rating - RATING_RANGE,
-        rating + RATING_RANGE,
+      const opponent = queuedUsers.find(
+        (u) =>
+          !processed.has(u.userId) &&
+          u.userId !== candidate.userId &&
+          Math.abs(u.rating - candidate.rating) <= RATING_RANGE,
       );
 
-      const opponentId = candidates.find((c) => c !== userId && !processed.has(c));
-      if (!opponentId) continue;
+      if (!opponent) continue;
 
-      processed.add(userId);
-      processed.add(opponentId);
+      processed.add(candidate.userId);
+      processed.add(opponent.userId);
 
       const battle = await prisma.$transaction(async (tx) => {
-        const b = await tx.battle.create({
+        const questId = await this._pickRandomQuest(tx);
+
+        const battle = await tx.battle.create({
           data: {
             mode: "RANKED",
-            questId: await this._pickRandomQuest(tx),
-            status: "WAITING",
+            questId,
+            status: "IN_PROGRESS",
+            startedAt: now,
           },
         });
 
         await tx.battlePlayer.createMany({
           data: [
-            { battleId: b.id, userId },
-            { battleId: b.id, userId: opponentId },
+            { battleId: battle.id, userId: candidate.userId },
+            { battleId: battle.id, userId: opponent.userId },
           ],
         });
 
         await tx.matchmakingQueue.updateMany({
-          where: { userId: { in: [userId, opponentId] }, status: "QUEUED" },
+          where: {
+            userId: { in: [candidate.userId, opponent.userId] },
+            status: "QUEUED",
+          },
           data: { status: "MATCHED" },
         });
 
-        return b;
+        return battle;
       });
 
-      await redis.zrem(QUEUE_KEY, userId, opponentId);
-      matches.push(battle);
+      try {
+        const redis = getRedis();
+        await redis.zrem(QUEUE_KEY, candidate.userId, opponent.userId);
+      } catch {
+        // Redis unavailable — database-only mode
+      }
+
+      battles.push(battle);
     }
 
-    return matches;
+    return battles;
+  }
+
+  async getQueueStatus(userId) {
+    const prisma = getPrisma();
+
+    const entry = await prisma.matchmakingQueue.findFirst({
+      where: { userId, status: "QUEUED" },
+    });
+    if (!entry) return null;
+
+    const now = new Date();
+    const ageMs = now.getTime() - entry.joinedAt.getTime();
+    const expired = ageMs >= QUEUE_TTL_MS;
+
+    if (expired) {
+      await prisma.matchmakingQueue.update({
+        where: { id: entry.id },
+        data: { status: "EXPIRED" },
+      });
+      return null;
+    }
+
+    const higherCount = await prisma.matchmakingQueue.count({
+      where: {
+        status: "QUEUED",
+        rating: { gt: entry.rating },
+      },
+    });
+
+    const position = higherCount + 1;
+    const ttlRemaining = Math.ceil((QUEUE_TTL_MS - ageMs) / 1000);
+
+    return {
+      status: entry.status,
+      rating: entry.rating,
+      position,
+      joinedAt: entry.joinedAt,
+      ttlRemaining,
+    };
   }
 
   async _pickRandomQuest(tx) {
+    const count = await tx.quest.count({ where: { isActive: true } });
+    if (count === 0) throw Errors.BadRequest("No active quests available");
+
+    const skip = Math.floor(Math.random() * count);
+
     const quest = await tx.quest.findFirst({
       where: { isActive: true },
-      orderBy: { createdAt: "desc" },
-      skip: Math.floor(Math.random() * 10),
+      skip,
+      take: 1,
     });
-    if (!quest) throw Errors.BadRequest("No active quests available");
+
     return quest.id;
   }
 }

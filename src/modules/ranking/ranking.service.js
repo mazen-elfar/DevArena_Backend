@@ -2,12 +2,6 @@ import { getPrisma } from "../../config/database.js";
 import { Errors } from "../../shared/errors/error-definitions.js";
 
 export class RankingService {
-  calculateElo(winnerRating, loserRating, winnerGamesPlayed) {
-    const k = winnerGamesPlayed < 30 ? 40 : winnerGamesPlayed <= 100 ? 25 : 15;
-    const expectedScore = 1 / (1 + Math.pow(10, (loserRating - winnerRating) / 400));
-    return Math.round(winnerRating + k * (1 - expectedScore));
-  }
-
   async updateRating(profileId, won, opponentRating) {
     const prisma = getPrisma();
 
@@ -21,10 +15,11 @@ export class RankingService {
 
     const oldRating = profile.rating;
 
-    const newRank = await prisma.rank.findFirst({
+    // Get old rank before update
+    const oldRank = await prisma.rank.findFirst({
       where: {
-        minRating: { lte: newRating },
-        maxRating: { gte: newRating },
+        minRating: { lte: profile.rating },
+        maxRating: { gte: profile.rating },
       },
     });
 
@@ -34,6 +29,16 @@ export class RankingService {
         rating: newRating,
       },
     });
+
+    // Get new rank after update
+    const newRank = await prisma.rank.findFirst({
+      where: {
+        minRating: { lte: newRating },
+        maxRating: { gte: newRating },
+      },
+    });
+
+    const rankChanged = oldRank?.id !== newRank?.id;
 
     await prisma.userRankHistory.create({
       data: {
@@ -48,7 +53,9 @@ export class RankingService {
       profile: updatedProfile,
       oldRating,
       newRating,
-      rankChanged: false,
+      oldRank: oldRank ? { id: oldRank.id, name: oldRank.name, color: oldRank.color } : null,
+      newRank: newRank ? { id: newRank.id, name: newRank.name, color: newRank.color } : null,
+      rankChanged,
     };
   }
 

@@ -225,12 +225,21 @@ export class GamificationService {
     const profile = await prisma.profile.findUnique({ where: { id: profileId } });
     if (!profile) throw Errors.NotFound("Profile");
 
+    // Get current balance from last transaction
+    const lastTx = await prisma.coinTransaction.findFirst({
+      where: { profileId },
+      orderBy: { createdAt: "desc" },
+      select: { balanceAfter: true },
+    });
+    const currentBalance = lastTx ? Number(lastTx.balanceAfter) : 0;
+    const newBalance = BigInt(currentBalance + amount);
+
     const [transaction] = await prisma.$transaction([
       prisma.coinTransaction.create({
         data: {
           profileId,
           amount,
-          balanceAfter: BigInt(0),
+          balanceAfter: newBalance,
           reason,
           referenceType,
           referenceId,
@@ -238,7 +247,7 @@ export class GamificationService {
       }),
     ]);
 
-    return { transaction };
+    return { transaction, newBalance: Number(newBalance) };
   }
 
   async getCoinBalance(profileId) {
